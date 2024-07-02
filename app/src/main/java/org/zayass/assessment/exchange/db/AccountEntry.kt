@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.math.BigDecimal
+import java.util.Currency
 
 @Entity(tableName = "account")
 data class AccountEntry(
@@ -12,7 +13,7 @@ data class AccountEntry(
     val id: Int? = null,
 
     @ColumnInfo
-    val currency: String,
+    val currency: Currency,
     @ColumnInfo
     val amount: BigDecimal,
 )

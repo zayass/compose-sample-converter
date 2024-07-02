@@ -16,7 +16,7 @@ object BigDecimalConverter {
     }
 
     @TypeConverter
-    fun fromFrom(input: Long?): BigDecimal? {
+    fun fromLing(input: Long?): BigDecimal? {
         if (input == null) {
             return null
         }
@@ -24,3 +24,4 @@ object BigDecimalConverter {
         return input.toBigDecimal().divide(hundred)
     }
 }
+
