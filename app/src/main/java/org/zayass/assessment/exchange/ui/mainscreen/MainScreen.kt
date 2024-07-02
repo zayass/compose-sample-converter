@@ -2,12 +2,10 @@ package org.zayass.assessment.exchange.ui.mainscreen
 
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
@@ -33,8 +31,9 @@ fun MainScreen() {
                     .verticalScroll(rememberScrollState())
                     .fillMaxHeight()
             ) {
-                Balances()
-                Spacer(modifier = Modifier.size(MaterialTheme.dimens.large))
+                Balances(
+                    modifier = Modifier.padding(bottom = MaterialTheme.dimens.large),
+                )
                 Converter(modifier = Modifier.weight(1f))
             }
         }

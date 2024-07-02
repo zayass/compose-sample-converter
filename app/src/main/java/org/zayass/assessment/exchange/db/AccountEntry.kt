@@ -3,6 +3,8 @@ package org.zayass.assessment.exchange.db
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import org.zayass.assessment.exchange.domain.Account
+import org.zayass.assessment.exchange.domain.Amount
 import java.math.BigDecimal
 import java.util.Currency
 
@@ -18,3 +20,10 @@ data class AccountEntry(
     val amount: BigDecimal,
 )
 
+fun AccountEntry.toDomain() = Account(
+    id = id,
+    balance = Amount(
+        value = amount,
+        currency = currency
+    )
+)
