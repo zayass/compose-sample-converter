@@ -5,7 +5,7 @@ import java.util.Currency
 import java.util.Date
 
 data class RatesResponse(
-    val base: String,
+    val base: Currency,
     val date: Date,
     val rates: Map<Currency, BigDecimal>
 )

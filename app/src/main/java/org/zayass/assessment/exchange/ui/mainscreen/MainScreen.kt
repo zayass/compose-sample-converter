@@ -3,6 +3,7 @@ package org.zayass.assessment.exchange.ui.mainscreen
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
@@ -34,7 +35,11 @@ fun MainScreen() {
                 Balances(
                     modifier = Modifier.padding(bottom = MaterialTheme.dimens.large),
                 )
-                Converter(modifier = Modifier.weight(1f))
+                Converter(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f)
+                )
             }
         }
     }

@@ -1,10 +1,6 @@
 package org.zayass.assessment.exchange.ui.converter
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.indication
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Row
-import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -17,14 +13,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import java.util.Currency
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DropDown(
-    values: List<String>,
-    value: String,
+    values: List<Currency>,
+    value: Currency,
     modifier: Modifier = Modifier,
-    onValueChanged: (String) -> Unit,
+    onValueChanged: (Currency) -> Unit,
 ) {
     var expanded by remember { mutableStateOf(false) }
 
@@ -34,7 +31,7 @@ fun DropDown(
         onExpandedChange = { expanded = !expanded },
     ) {
         Row(Modifier.menuAnchor()) {
-            Text(text = value)
+            Text(text = value.format())
             ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
         }
 
@@ -45,7 +42,7 @@ fun DropDown(
         ) {
             values.forEach { item ->
                 DropdownMenuItem(
-                    text = { Text(text = item) },
+                    text = { Text(text = item.format()) },
                     onClick = {
                         onValueChanged(item)
                         expanded = false
@@ -55,3 +52,5 @@ fun DropDown(
         }
     }
 }
+
+private fun Currency.format() = currencyCode

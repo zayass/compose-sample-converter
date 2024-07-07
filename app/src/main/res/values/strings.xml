@@ -5,4 +5,8 @@
     <string name="submit">Submit</string>
     <string name="sell">Sell</string>
     <string name="receive">Receive</string>
+    <string name="currency_converted">Currency converted</string>
+    <string name="converted_without_fee_template">You have converted %s to %s.</string>
+    <string name="converted_with_fee_template">You have converted %s to %s. Commission Fee: %s</string>
+    <string name="receive_template">+%1$s</string>
 </resources>

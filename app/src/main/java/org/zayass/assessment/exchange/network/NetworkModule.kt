@@ -4,6 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import org.zayass.assessment.exchange.domain.ConverterProvider
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
@@ -24,5 +25,10 @@ object NetworkModule {
     @Provides
     fun providesExchangeApi(retrofit: Retrofit) =
         retrofit.create<ExchangeRatesApi>()
+
+    @Singleton
+    @Provides
+    fun providesConverter(api: ExchangeRatesApi): ConverterProvider =
+        RemoteConverterProvider(api)
 }
 
