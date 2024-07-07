@@ -14,9 +14,9 @@ import javax.inject.Singleton
 class DbAccountRepository @Inject constructor(
     private val database: AppDatabase,
     private val dao: AccountDao
-) : AccountRepository {
+) : org.zayass.assessment.exchange.domain.AccountRepository {
 
-    override fun accounts(): Flow<List<Account>> {
+    override fun accounts(): Flow<List<org.zayass.assessment.exchange.domain.Account>> {
         return dao.accounts().map {
             it.map(AccountEntry::toDomain)
         }
@@ -26,7 +26,7 @@ class DbAccountRepository @Inject constructor(
         return dao.transferCount()
     }
 
-    override suspend fun transfer(send: Amount, receive: Amount, fee: Amount?) {
+    override suspend fun transfer(send: org.zayass.assessment.exchange.domain.Amount, receive: org.zayass.assessment.exchange.domain.Amount, fee: org.zayass.assessment.exchange.domain.Amount?) {
         database.withTransaction {
             dao.insertOrIgnore(
                 AccountEntry(

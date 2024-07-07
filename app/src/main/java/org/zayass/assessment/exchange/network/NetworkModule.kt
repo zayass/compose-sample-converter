@@ -28,7 +28,7 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun providesConverter(api: ExchangeRatesApi): ConverterProvider =
+    fun providesConverter(api: ExchangeRatesApi): org.zayass.assessment.exchange.domain.ConverterProvider =
         RemoteConverterProvider(api)
 }
 

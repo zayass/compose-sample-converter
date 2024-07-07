@@ -6,12 +6,13 @@ import java.math.BigDecimal
 import java.math.RoundingMode
 import java.util.Currency
 
-class RemoteConverter(private val ratesResponse: RatesResponse) : Converter {
+class RemoteConverter(private val ratesResponse: RatesResponse) :
+    org.zayass.assessment.exchange.domain.Converter {
     override fun availableCurrencies(): List<Currency> {
         return ratesResponse.rates.keys.sortedBy { it.currencyCode }
     }
 
-    override fun convert(amount: Amount, currency: Currency): Amount? {
+    override fun convert(amount: org.zayass.assessment.exchange.domain.Amount, currency: Currency): org.zayass.assessment.exchange.domain.Amount? {
         val value = if (ratesResponse.base == amount.currency) {
             val rate = rate(currency) ?: return null
             amount.value * rate
@@ -29,7 +30,7 @@ class RemoteConverter(private val ratesResponse: RatesResponse) : Converter {
             (amount.value * inRate).divide(outRate, scale, RoundingMode.HALF_DOWN)
         }
 
-        return Amount(
+        return org.zayass.assessment.exchange.domain.Amount(
             value = value,
             currency = currency
         )

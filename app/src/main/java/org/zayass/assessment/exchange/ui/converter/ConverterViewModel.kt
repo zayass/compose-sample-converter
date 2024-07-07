@@ -29,8 +29,8 @@ private data class InnerState(
 
 @HiltViewModel
 class ConverterViewModel @Inject constructor(
-    private val accountRepository: AccountRepository,
-    conversionService: ConversionService
+    private val accountRepository: org.zayass.assessment.exchange.domain.AccountRepository,
+    conversionService: org.zayass.assessment.exchange.domain.ConversionService
 ) : ViewModel() {
 
     private val state = MutableStateFlow(InnerState())
@@ -99,8 +99,8 @@ class ConverterViewModel @Inject constructor(
 
     private fun reduceState(
         state: InnerState,
-        accounts: List<Account>,
-        converter: FeeAwareConverter,
+        accounts: List<org.zayass.assessment.exchange.domain.Account>,
+        converter: org.zayass.assessment.exchange.domain.FeeAwareConverter,
     ): UiState.Ready {
         val availableToSell = accounts.map { it.balance.currency }
         val availableToReceive = converter.availableCurrencies()
@@ -108,7 +108,7 @@ class ConverterViewModel @Inject constructor(
         val sellCurrency = state.sellCurrency ?: availableToSell.first()
         val receiveCurrency = state.receiveCurrency ?: availableToReceive.first()
 
-        val sell = Amount(
+        val sell = org.zayass.assessment.exchange.domain.Amount(
             value = state.amount,
             currency = sellCurrency
         )
@@ -127,7 +127,7 @@ class ConverterViewModel @Inject constructor(
         )
     }
 
-    private fun hasSufficientAmount(accounts: List<Account>, sell: Amount): Boolean {
+    private fun hasSufficientAmount(accounts: List<org.zayass.assessment.exchange.domain.Account>, sell: org.zayass.assessment.exchange.domain.Amount): Boolean {
         val account = accounts.firstOrNull { it.balance.currency == sell.currency } ?: return false
         return account.balance.value >= sell.value
     }

@@ -33,7 +33,7 @@ fun Balances(modifier: Modifier = Modifier, viewModel: AccountsViewModel = hiltV
 }
 
 @Composable
-fun Balances(accounts: List<Account>, modifier: Modifier = Modifier) {
+fun Balances(accounts: List<org.zayass.assessment.exchange.domain.Account>, modifier: Modifier = Modifier) {
     if (accounts.isNotEmpty()) {
         Column(modifier) {
             Header(
@@ -56,7 +56,7 @@ fun Balances(accounts: List<Account>, modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun Balance(balance: Amount) {
+private fun Balance(balance: org.zayass.assessment.exchange.domain.Amount) {
     Text(
         text = balance.format(),
         fontWeight = FontWeight.Medium,
@@ -64,7 +64,7 @@ private fun Balance(balance: Amount) {
     )
 }
 
-private fun Amount.format(): String {
+private fun org.zayass.assessment.exchange.domain.Amount.format(): String {
     val numberFormat = NumberFormat.getCurrencyInstance(Locale.getDefault())
     numberFormat.currency = currency
     return numberFormat.format(value)
@@ -75,16 +75,16 @@ private fun Amount.format(): String {
 private fun BalancesPreview() {
     ThemedSurface {
         Balances(listOf(
-            Account(
+            org.zayass.assessment.exchange.domain.Account(
                 id = 1,
-                balance = Amount(
+                balance = org.zayass.assessment.exchange.domain.Amount(
                     value = BigDecimal.TEN,
                     currency = Currency.getInstance("USD")
                 )
             ),
-            Account(
+            org.zayass.assessment.exchange.domain.Account(
                 id = 2,
-                balance = Amount(
+                balance = org.zayass.assessment.exchange.domain.Amount(
                     value = BigDecimal(1_000_000_000),
                     currency = Currency.getInstance("EUR")
                 )

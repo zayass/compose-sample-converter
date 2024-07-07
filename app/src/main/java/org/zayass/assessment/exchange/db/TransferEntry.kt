@@ -13,9 +13,9 @@ data class TransferEntry(
     val id: Long? = null,
 
     @Embedded(prefix = "send_")
-    val send: Amount,
+    val send: org.zayass.assessment.exchange.domain.Amount,
     @Embedded(prefix = "receive_")
-    val receive: Amount,
+    val receive: org.zayass.assessment.exchange.domain.Amount,
     @Embedded(prefix = "fee_")
-    val fee: Amount?,
+    val fee: org.zayass.assessment.exchange.domain.Amount?,
 )

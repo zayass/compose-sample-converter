@@ -8,8 +8,8 @@ import javax.inject.Singleton
 @Singleton
 class RemoteConverterProvider @Inject constructor(
     private val api: ExchangeRatesApi
-) : ConverterProvider {
-    override suspend fun obtainConverter(): Result<Converter> {
+) : org.zayass.assessment.exchange.domain.ConverterProvider {
+    override suspend fun obtainConverter(): Result<org.zayass.assessment.exchange.domain.Converter> {
         return runCatching { RemoteConverter(api.getRates()) }
     }
 }

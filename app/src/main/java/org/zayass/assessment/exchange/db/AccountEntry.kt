@@ -24,9 +24,9 @@ data class AccountEntry(
     val amount: BigDecimal,
 )
 
-fun AccountEntry.toDomain() = Account(
+fun AccountEntry.toDomain() = org.zayass.assessment.exchange.domain.Account(
     id = id,
-    balance = Amount(
+    balance = org.zayass.assessment.exchange.domain.Amount(
         value = amount,
         currency = currency
     )

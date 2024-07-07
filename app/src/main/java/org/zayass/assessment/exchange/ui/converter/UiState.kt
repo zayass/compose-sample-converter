@@ -9,9 +9,9 @@ sealed class UiState {
     data class Ready(
         val submitEnabled: Boolean,
         val rawInput: String,
-        val sell: Amount,
-        val receive: Amount,
-        val fee: Amount?,
+        val sell: org.zayass.assessment.exchange.domain.Amount,
+        val receive: org.zayass.assessment.exchange.domain.Amount,
+        val fee: org.zayass.assessment.exchange.domain.Amount?,
 
         val availableToSell: List<Currency>,
         val availableToReceive: List<Currency>,

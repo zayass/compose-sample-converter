@@ -210,7 +210,7 @@ private fun SellRow(
 
 @Composable
 private fun ReceiveRow(
-    amount: Amount,
+    amount: org.zayass.assessment.exchange.domain.Amount,
     availableCurrencies: List<Currency>,
     dispatchAction: (UiAction) -> Unit,
 ) {
@@ -256,7 +256,7 @@ private fun ReceiveRow(
 }
 
 @Composable
-private fun FeeInfo(fee: Amount) {
+private fun FeeInfo(fee: org.zayass.assessment.exchange.domain.Amount) {
     Row(Modifier.padding(top = MaterialTheme.dimens.medium)) {
         Icon(
             imageVector = Icons.Outlined.Info,
@@ -267,12 +267,12 @@ private fun FeeInfo(fee: Amount) {
     }
 }
 
-private fun Amount.formatShort(): String {
+private fun org.zayass.assessment.exchange.domain.Amount.formatShort(): String {
     val numberFormat = NumberFormat.getNumberInstance(Locale.getDefault())
     return numberFormat.format(value)
 }
 
-private fun Amount.formatFull(): String {
+private fun org.zayass.assessment.exchange.domain.Amount.formatFull(): String {
     val numberFormat = NumberFormat.getCurrencyInstance(Locale.getDefault())
     numberFormat.currency = currency
     return numberFormat.format(value)
@@ -297,15 +297,15 @@ private fun ConverterPreview() {
             state = UiState.Ready(
                 submitEnabled = false,
                 rawInput = "0",
-                sell = Amount(
+                sell = org.zayass.assessment.exchange.domain.Amount(
                     value = BigDecimal(10001).movePointLeft(2),
                     currency = Currency.getInstance("EUR")
                 ),
-                receive = Amount(
+                receive = org.zayass.assessment.exchange.domain.Amount(
                     value = BigDecimal(10001).movePointLeft(2),
                     currency = Currency.getInstance("USD")
                 ),
-                fee = Amount(
+                fee = org.zayass.assessment.exchange.domain.Amount(
                     value = BigDecimal(10).movePointLeft(2),
                     currency = Currency.getInstance("EUR")
                 ),
