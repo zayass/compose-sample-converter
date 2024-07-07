@@ -22,6 +22,6 @@ dependencyResolutionManagement {
 rootProject.name = "Yet Another Exchanger"
 
 include(":app")
-include(":domain")
-include(":network")
-include(":db")
+include(":core:domain")
+include(":core:network")
+include(":core:db")

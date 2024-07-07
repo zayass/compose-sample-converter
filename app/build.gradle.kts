@@ -54,9 +54,9 @@ android {
 }
 
 dependencies {
-    implementation(project(":domain"))
-    implementation(project(":network"))
-    implementation(project(":db"))
+    implementation(project(":core:domain"))
+    implementation(project(":core:network"))
+    implementation(project(":core:db"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

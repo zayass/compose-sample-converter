@@ -3,10 +3,11 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.hilt)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.room)
 }
 
 android {
-    namespace = "org.zayass.assessment.exchange.network"
+    namespace = "org.zayass.assessment.exchange.db"
     compileSdk = 34
 
     compileOptions {
@@ -18,15 +19,21 @@ android {
     }
 }
 
+room {
+    schemaDirectory("$projectDir/schemas")
+}
+
 dependencies {
-    api(project(":domain"))
+    api(project(":core:domain"))
 
     implementation(libs.hilt.android)
     implementation(libs.androidx.core.ktx)
     ksp(libs.hilt.compiler)
     implementation(libs.kotlinx.coroutines.core)
-    implementation(libs.retrofit)
-    implementation(libs.retrofit.converter.gson)
+
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    ksp(libs.room.compiler)
 
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.junit)
