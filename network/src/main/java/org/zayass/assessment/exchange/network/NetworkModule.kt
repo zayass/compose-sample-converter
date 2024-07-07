@@ -12,7 +12,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object NetworkModule {
+internal object NetworkModule {
     @Provides
     @Singleton
     fun providesRetrofit(): Retrofit =
@@ -28,7 +28,7 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun providesConverter(api: ExchangeRatesApi): org.zayass.assessment.exchange.domain.ConverterProvider =
+    fun providesConverter(api: ExchangeRatesApi): ConverterProvider =
         RemoteConverterProvider(api)
 }
 

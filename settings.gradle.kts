@@ -23,3 +23,4 @@ rootProject.name = "Yet Another Exchanger"
 
 include(":app")
 include(":domain")
+include(":network")

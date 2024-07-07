@@ -1,5 +1,5 @@
 plugins {
-    id("kotlin-kapt")
+    alias(libs.plugins.ksp)
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.compose.compiler)
@@ -51,14 +51,15 @@ android {
     room {
         schemaDirectory("$projectDir/schemas")
     }
-}
-
-kapt {
-    correctErrorTypes = true
+    hilt {
+        enableAggregatingTask = true
+        enableExperimentalClasspathAggregation = true
+    }
 }
 
 dependencies {
     implementation(project(":domain"))
+    implementation(project(":network"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -71,14 +72,12 @@ dependencies {
     implementation(libs.androidx.material3)
 
     implementation(libs.kotlinx.coroutines.android)
-    implementation(libs.hilt)
+    implementation(libs.hilt.android)
     implementation(libs.androidx.hilt.navigation.compose)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
-    kapt(libs.room.compiler)
-    implementation(libs.retrofit)
-    implementation(libs.retrofit.converter.gson)
+    ksp(libs.room.compiler)
 
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)

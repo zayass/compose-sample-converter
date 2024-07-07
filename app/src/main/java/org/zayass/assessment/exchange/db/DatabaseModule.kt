@@ -28,7 +28,7 @@ object DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideAccountsRepository(repository: DbAccountRepository): org.zayass.assessment.exchange.domain.AccountRepository {
+    fun provideAccountsRepository(repository: DbAccountRepository): AccountRepository {
         return repository
     }
 }

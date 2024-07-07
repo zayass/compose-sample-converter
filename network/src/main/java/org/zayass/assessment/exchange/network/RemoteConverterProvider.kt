@@ -1,7 +1,5 @@
 package org.zayass.assessment.exchange.network
 
-import org.zayass.assessment.exchange.domain.Converter
-import org.zayass.assessment.exchange.domain.ConverterProvider
 import javax.inject.Inject
 import javax.inject.Singleton
 
