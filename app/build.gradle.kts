@@ -4,7 +4,6 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.hilt)
-    alias(libs.plugins.room)
 }
 
 android {
@@ -48,9 +47,6 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
-    room {
-        schemaDirectory("$projectDir/schemas")
-    }
     hilt {
         enableAggregatingTask = true
         enableExperimentalClasspathAggregation = true
@@ -60,6 +56,7 @@ android {
 dependencies {
     implementation(project(":domain"))
     implementation(project(":network"))
+    implementation(project(":db"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -75,9 +72,6 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.androidx.hilt.navigation.compose)
     ksp(libs.hilt.compiler)
-    implementation(libs.room.runtime)
-    implementation(libs.room.ktx)
-    ksp(libs.room.compiler)
 
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
