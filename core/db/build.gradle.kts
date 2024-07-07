@@ -9,7 +9,10 @@ plugins {
 android {
     namespace = "org.zayass.assessment.exchange.db"
     compileSdk = 34
-
+    defaultConfig {
+        minSdk = 26
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -35,6 +38,5 @@ dependencies {
     implementation(libs.room.ktx)
     ksp(libs.room.compiler)
 
-    testImplementation(libs.kotlinx.coroutines.test)
-    testImplementation(libs.junit)
+    androidTestImplementation(libs.bundles.android.test)
 }

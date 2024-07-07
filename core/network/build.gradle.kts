@@ -8,7 +8,10 @@ plugins {
 android {
     namespace = "org.zayass.assessment.exchange.network"
     compileSdk = 34
-
+    defaultConfig {
+        minSdk = 26
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -27,7 +30,4 @@ dependencies {
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)
-
-    testImplementation(libs.kotlinx.coroutines.test)
-    testImplementation(libs.junit)
 }
