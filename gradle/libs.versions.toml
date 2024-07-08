@@ -3,7 +3,6 @@ agp = "8.5.0"
 kotlin = "2.0.0"
 coreKtx = "1.13.1"
 junit = "4.13.2"
-junitVersion = "1.2.1"
 lifecycleRuntimeKtx = "2.8.3"
 activityCompose = "1.9.0"
 composeBom = "2024.06.00"
@@ -20,16 +19,21 @@ jetbrainsKotlinJvm = "2.0.0"
 ksp = "2.0.0-1.0.22"
 
 androidXTest = "1.6.1"
+androidXJunit = "1.2.1"
+mockitoKotlin = "5.3.1"
+mockitoAndroid = "5.12.0"
 
 [libraries]
 androidx-test-rules = { module = "androidx.test:rules", version.ref = "androidXTest" }
 androidx-test-runner = { module = "androidx.test:runner", version.ref = "androidXTest" }
 androidx-test-core = { module = "androidx.test:core", version.ref = "androidXTest" }
-androidx-test-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+androidx-test-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidXJunit" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlin" }
+mockito-android = { module = "org.mockito:mockito-android", version.ref = "mockitoAndroid" }
+turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
-junit = { group = "junit", name = "junit", version.ref = "junit" }
-
 
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-lifecycle-runtime-compose-android = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose-android", version.ref = "lifecycleRuntimeKtx" }
@@ -47,6 +51,7 @@ kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-c
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
 javax-inject = { module = "javax.inject:javax.inject", version.ref = "javaxInject" }
+hilt-core = { module = "com.google.dagger:hilt-core", version.ref = "hilt" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
@@ -55,7 +60,6 @@ room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 retrofit-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
-turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 
 [plugins]
 android-library = { id = "com.android.library", version.ref = "agp" }
@@ -68,12 +72,6 @@ jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrai
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
 [bundles]
-androidx-test = [
-    "androidx-test-core",
-    "androidx-test-rules",
-    "androidx-test-runner",
-    "androidx-test-junit",
-]
 android-test = [
     "androidx-test-core",
     "androidx-test-rules",
@@ -81,4 +79,8 @@ android-test = [
     "androidx-test-junit",
     "kotlinx-coroutines-test",
     "turbine"
+]
+android-mockito = [
+    "mockito-android",
+    "mockito-kotlin"
 ]

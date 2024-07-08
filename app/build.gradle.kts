@@ -33,11 +33,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
-    kotlinOptions {
-        jvmTarget = "1.8"
+    kotlin {
+        jvmToolchain(11)
     }
     buildFeatures {
         compose = true
@@ -76,9 +76,8 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    testImplementation(libs.kotlinx.coroutines.test)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.test.junit)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
+    androidTestImplementation(kotlin("reflect"))
+    androidTestImplementation(kotlin("test"))
+    androidTestImplementation(libs.bundles.android.mockito)
+    androidTestImplementation(libs.bundles.android.test)
 }
