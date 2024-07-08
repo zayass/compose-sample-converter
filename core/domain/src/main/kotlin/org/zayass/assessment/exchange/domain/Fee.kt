@@ -16,7 +16,7 @@ internal class FeeProvider @Inject constructor(
     }
 }
 
-interface FeePolicy {
+internal interface FeePolicy {
     fun calculateFee(amount: Amount): Amount?
 }
 

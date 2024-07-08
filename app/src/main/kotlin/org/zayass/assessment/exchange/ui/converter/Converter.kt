@@ -40,8 +40,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.zayass.assessment.exchange.R
+import org.zayass.assessment.exchange.domain.Amount
 import org.zayass.assessment.exchange.ui.Header
 import org.zayass.assessment.exchange.ui.ThemedSurface
+import org.zayass.assessment.exchange.ui.applyPrecision
 import org.zayass.assessment.exchange.ui.theme.Green40
 import org.zayass.assessment.exchange.ui.theme.Red40
 import org.zayass.assessment.exchange.ui.theme.dimens
@@ -49,6 +51,7 @@ import java.math.BigDecimal
 import java.text.NumberFormat
 import java.util.Currency
 import java.util.Locale
+
 
 @Composable
 fun Converter(modifier: Modifier = Modifier, viewModel: ConverterViewModel = hiltViewModel()) {
@@ -219,7 +222,7 @@ private fun SellRow(
 
 @Composable
 private fun ReceiveRow(
-    amount: org.zayass.assessment.exchange.domain.Amount,
+    amount: Amount,
     availableCurrencies: List<Currency>,
     dispatchAction: (UiAction) -> Unit,
 ) {
@@ -265,7 +268,7 @@ private fun ReceiveRow(
 }
 
 @Composable
-private fun FeeInfo(fee: org.zayass.assessment.exchange.domain.Amount) {
+private fun FeeInfo(fee: Amount) {
     Row(Modifier.padding(top = MaterialTheme.dimens.medium)) {
         Icon(
             imageVector = Icons.Outlined.Info,
@@ -276,14 +279,16 @@ private fun FeeInfo(fee: org.zayass.assessment.exchange.domain.Amount) {
     }
 }
 
-private fun org.zayass.assessment.exchange.domain.Amount.formatShort(): String {
+private fun Amount.formatShort(): String {
     val numberFormat = NumberFormat.getNumberInstance(Locale.getDefault())
+    numberFormat.applyPrecision(value)
     return numberFormat.format(value)
 }
 
-private fun org.zayass.assessment.exchange.domain.Amount.formatFull(): String {
+private fun Amount.formatFull(): String {
     val numberFormat = NumberFormat.getCurrencyInstance(Locale.getDefault())
     numberFormat.currency = currency
+    numberFormat.applyPrecision(value)
     return numberFormat.format(value)
 }
 
@@ -306,15 +311,15 @@ private fun ConverterPreview() {
             state = UiState.Ready(
                 submitEnabled = false,
                 rawInput = "0",
-                sell = org.zayass.assessment.exchange.domain.Amount(
+                sell = Amount(
                     value = BigDecimal(10001).movePointLeft(2),
                     currency = Currency.getInstance("EUR")
                 ),
-                receive = org.zayass.assessment.exchange.domain.Amount(
+                receive = Amount(
                     value = BigDecimal(10001).movePointLeft(2),
                     currency = Currency.getInstance("USD")
                 ),
-                fee = org.zayass.assessment.exchange.domain.Amount(
+                fee = Amount(
                     value = BigDecimal(10).movePointLeft(2),
                     currency = Currency.getInstance("EUR")
                 ),

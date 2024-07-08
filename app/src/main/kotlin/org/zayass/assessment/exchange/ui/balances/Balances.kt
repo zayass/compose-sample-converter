@@ -20,6 +20,7 @@ import org.zayass.assessment.exchange.domain.Account
 import org.zayass.assessment.exchange.domain.Amount
 import org.zayass.assessment.exchange.ui.Header
 import org.zayass.assessment.exchange.ui.ThemedSurface
+import org.zayass.assessment.exchange.ui.applyPrecision
 import org.zayass.assessment.exchange.ui.theme.dimens
 import java.math.BigDecimal
 import java.text.NumberFormat
@@ -33,7 +34,7 @@ fun Balances(modifier: Modifier = Modifier, viewModel: AccountsViewModel = hiltV
 }
 
 @Composable
-fun Balances(accounts: List<org.zayass.assessment.exchange.domain.Account>, modifier: Modifier = Modifier) {
+fun Balances(accounts: List<Account>, modifier: Modifier = Modifier) {
     if (accounts.isNotEmpty()) {
         Column(modifier) {
             Header(
@@ -56,7 +57,7 @@ fun Balances(accounts: List<org.zayass.assessment.exchange.domain.Account>, modi
 }
 
 @Composable
-private fun Balance(balance: org.zayass.assessment.exchange.domain.Amount) {
+private fun Balance(balance: Amount) {
     Text(
         text = balance.format(),
         fontWeight = FontWeight.Medium,
@@ -64,9 +65,10 @@ private fun Balance(balance: org.zayass.assessment.exchange.domain.Amount) {
     )
 }
 
-private fun org.zayass.assessment.exchange.domain.Amount.format(): String {
+private fun Amount.format(): String {
     val numberFormat = NumberFormat.getCurrencyInstance(Locale.getDefault())
     numberFormat.currency = currency
+    numberFormat.applyPrecision(value)
     return numberFormat.format(value)
 }
 
@@ -75,16 +77,16 @@ private fun org.zayass.assessment.exchange.domain.Amount.format(): String {
 private fun BalancesPreview() {
     ThemedSurface {
         Balances(listOf(
-            org.zayass.assessment.exchange.domain.Account(
+            Account(
                 id = 1,
-                balance = org.zayass.assessment.exchange.domain.Amount(
+                balance = Amount(
                     value = BigDecimal.TEN,
                     currency = Currency.getInstance("USD")
                 )
             ),
-            org.zayass.assessment.exchange.domain.Account(
+            Account(
                 id = 2,
-                balance = org.zayass.assessment.exchange.domain.Amount(
+                balance = Amount(
                     value = BigDecimal(1_000_000_000),
                     currency = Currency.getInstance("EUR")
                 )

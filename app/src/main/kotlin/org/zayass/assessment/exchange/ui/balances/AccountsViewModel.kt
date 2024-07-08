@@ -12,8 +12,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AccountsViewModel @Inject constructor(
-    repository: org.zayass.assessment.exchange.domain.AccountRepository
+    repository: AccountRepository
 ) : ViewModel() {
-    val accounts: StateFlow<List<org.zayass.assessment.exchange.domain.Account>> = repository.accounts()
+    val accounts: StateFlow<List<Account>> = repository.accounts()
         .stateIn(viewModelScope, WhileSubscribed(5000), emptyList())
 }

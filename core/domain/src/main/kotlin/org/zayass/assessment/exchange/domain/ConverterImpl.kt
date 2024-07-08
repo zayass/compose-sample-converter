@@ -24,7 +24,6 @@ private val supportedCurrencies =
         "CAD",
         "JPY"
     )
-    .map(Currency::getInstance)
     .toSet()
 
 internal class ConversionServiceImpl @Inject internal constructor(
@@ -52,7 +51,7 @@ internal data class ConverterImpl(
     private val feePolicy: FeePolicy
 ) : Converter {
     override fun availableCurrencies() = rates.availableCurrencies().filter {
-        it in supportedCurrencies
+        it.currencyCode in supportedCurrencies
     }
 
     override fun convertForward(fromAmount: Amount, currency: Currency): ConversionResult {
@@ -89,21 +88,21 @@ internal data class ConverterImpl(
 }
 
 private fun Rates.convert(amount: Amount, currency: Currency): Amount? {
-    val value = if (baseCurrency() == amount.currency) {
-        val rate = rate(currency) ?: return null
-        amount.value * rate
-    } else {
+    val inRate = rate(currency) ?: return null
+    val amountInBaseCurrency = amount.value * inRate
+
+    val value = if (baseCurrency() != amount.currency) {
         val outRate = rate(amount.currency) ?: return null
-        val inRate = rate(currency) ?: return null
 
         val scale = maxOf(
-            amount.value.scale(),
-            inRate.precision(),
-            outRate.precision(),
+            amountInBaseCurrency.scale(),
+            outRate.scale(),
             2
         )
 
-        (amount.value * inRate).divide(outRate, scale, RoundingMode.HALF_DOWN)
+        amountInBaseCurrency.divide(outRate, scale, RoundingMode.HALF_DOWN)
+    } else {
+        amountInBaseCurrency
     }
 
     return Amount(

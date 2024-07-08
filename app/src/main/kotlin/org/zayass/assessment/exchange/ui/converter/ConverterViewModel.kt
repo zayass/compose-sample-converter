@@ -10,8 +10,11 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.zayass.assessment.exchange.domain.Account
 import org.zayass.assessment.exchange.domain.AccountRepository
+import org.zayass.assessment.exchange.domain.Amount
 import org.zayass.assessment.exchange.domain.ConversionService
+import org.zayass.assessment.exchange.domain.Converter
 import java.math.BigDecimal
 import java.util.Currency
 import javax.inject.Inject
@@ -96,8 +99,8 @@ class ConverterViewModel @Inject constructor(
 
     private fun reduceState(
         state: InnerState,
-        accounts: List<org.zayass.assessment.exchange.domain.Account>,
-        converter: org.zayass.assessment.exchange.domain.Converter,
+        accounts: List<Account>,
+        converter: Converter,
     ): UiState.Ready {
         val availableToSell = accounts.map { it.balance.currency }
         val availableToReceive = converter.availableCurrencies()
@@ -105,7 +108,7 @@ class ConverterViewModel @Inject constructor(
         val sellCurrency = state.sellCurrency ?: availableToSell.first()
         val receiveCurrency = state.receiveCurrency ?: availableToReceive.first()
 
-        val sell = org.zayass.assessment.exchange.domain.Amount(
+        val sell = Amount(
             value = state.amount,
             currency = sellCurrency
         )
@@ -124,7 +127,7 @@ class ConverterViewModel @Inject constructor(
         )
     }
 
-    private fun hasSufficientAmount(accounts: List<org.zayass.assessment.exchange.domain.Account>, sell: org.zayass.assessment.exchange.domain.Amount): Boolean {
+    private fun hasSufficientAmount(accounts: List<Account>, sell: Amount): Boolean {
         val account = accounts.firstOrNull { it.balance.currency == sell.currency } ?: return false
         return account.balance.value >= sell.value
     }
