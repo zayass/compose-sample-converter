@@ -202,7 +202,7 @@ private fun SellRow(
 
         AmountTextField(
             value = inputValue,
-            formatedValue = stringResource(id = R.string.receive_template, amount.formatShort()),
+            formatedValue = stringResource(id = R.string.sell_template, amount.formatShort()),
             onValueChange = { dispatchAction(UiAction.ChangeSellAmount(it)) },
             modifier = Modifier
                 .focusRequester(focusRequester)

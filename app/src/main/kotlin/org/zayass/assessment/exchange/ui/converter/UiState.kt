@@ -20,9 +20,9 @@ sealed class UiState {
         val receiveInput: String? = null,
     ) : UiState() {
         val sellValue: String
-            get() = sellInput ?: sell.value.toPlainString()
+            get() = sellInput ?: sell.value.stripTrailingZeros().toPlainString()
 
         val receiveValue: String
-            get() = receiveInput ?: receive.value.toPlainString()
+            get() = receiveInput ?: receive.value.stripTrailingZeros().toPlainString()
     }
 }
