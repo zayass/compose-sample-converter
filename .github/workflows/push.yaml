@@ -86,4 +86,4 @@ jobs:
           disable-animations: true
           disk-size: 6000M
           heap-size: 600M
-          script: ./gradlew connectedTest --daemon
+          script: ./gradlew connectedAndroidTest --daemon
