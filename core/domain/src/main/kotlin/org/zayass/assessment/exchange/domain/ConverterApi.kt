@@ -17,7 +17,7 @@ interface RatesProvider {
 interface Converter {
     fun availableCurrencies(): List<Currency>
     fun convertForward(fromAmount: Amount, currency: Currency): ConversionResult
-    fun convertBackward(toAmount: Amount, currency: Currency): ConversionResult?
+    fun convertBackward(toAmount: Amount, currency: Currency): ConversionResult
 }
 
 interface ConversionService {

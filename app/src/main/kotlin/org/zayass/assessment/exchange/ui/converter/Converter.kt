@@ -41,10 +41,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.zayass.assessment.exchange.R
 import org.zayass.assessment.exchange.domain.Amount
+import org.zayass.assessment.exchange.domain.round
 import org.zayass.assessment.exchange.ui.Header
 import org.zayass.assessment.exchange.ui.ThemedSurface
 import org.zayass.assessment.exchange.ui.applyPrecision
-import org.zayass.assessment.exchange.ui.round
 import org.zayass.assessment.exchange.ui.theme.Green40
 import org.zayass.assessment.exchange.ui.theme.Red40
 import org.zayass.assessment.exchange.ui.theme.dimens
@@ -92,13 +92,14 @@ fun ReadyConverter(
         Spacer(modifier = Modifier.size(MaterialTheme.dimens.small))
 
         SellRow(
-            amount = state.rawInput,
-            currency = state.sell.currency,
+            inputValue = state.sellValue,
+            amount = state.sell,
             availableCurrencies = state.availableToSell,
             dispatchAction = dispatchAction
         )
         HorizontalDivider(modifier = Modifier.padding(start = 36.dp))
         ReceiveRow(
+            inputValue = state.receiveValue,
             amount = state.receive,
             availableCurrencies = state.availableToReceive,
             dispatchAction = dispatchAction
@@ -172,8 +173,8 @@ fun UiState.Ready.message(): String {
 
 @Composable
 private fun SellRow(
-    amount: String,
-    currency: Currency,
+    inputValue: String,
+    amount: Amount,
     availableCurrencies: List<Currency>,
     dispatchAction: (UiAction) -> Unit,
 ) {
@@ -199,9 +200,10 @@ private fun SellRow(
             fontWeight = FontWeight.Medium
         )
 
-        TextFieldWithoutDecor(
-            value = amount,
-            onValueChange = { dispatchAction(UiAction.ChangeAmount(it)) },
+        AmountTextField(
+            value = inputValue,
+            formatedValue = stringResource(id = R.string.receive_template, amount.formatShort()),
+            onValueChange = { dispatchAction(UiAction.ChangeSellAmount(it)) },
             modifier = Modifier
                 .focusRequester(focusRequester)
                 .weight(1f)
@@ -211,10 +213,11 @@ private fun SellRow(
                 textAlign = TextAlign.End,
                 fontWeight = FontWeight.Medium,
             ),
+            unfocusedTextColor = Red40
         )
 
         DropDown(
-            value = currency,
+            value = amount.currency,
             values = availableCurrencies,
             onValueChanged = { dispatchAction(UiAction.ChangeSellCurrency(it)) }
         )
@@ -223,6 +226,7 @@ private fun SellRow(
 
 @Composable
 private fun ReceiveRow(
+    inputValue: String,
     amount: Amount,
     availableCurrencies: List<Currency>,
     dispatchAction: (UiAction) -> Unit,
@@ -246,18 +250,19 @@ private fun ReceiveRow(
             fontWeight = FontWeight.Medium
         )
 
-        TextFieldWithoutDecor(
-            value = stringResource(R.string.receive_template, amount.formatShort()),
-            readOnly = true,
+        AmountTextField(
+            value = inputValue,
+            formatedValue = stringResource(id = R.string.receive_template, amount.formatShort()),
+            onValueChange = { dispatchAction(UiAction.ChangeReceiveAmount(it)) },
             modifier = Modifier
                 .weight(1f)
                 .padding(horizontal = MaterialTheme.dimens.small),
-            onValueChange = { },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
             textStyle = LocalTextStyle.current.copy(
                 textAlign = TextAlign.End,
                 fontWeight = FontWeight.Medium,
-                color = Green40
             ),
+            unfocusedTextColor = Green40
         )
 
         DropDown(
@@ -276,7 +281,7 @@ private fun FeeInfo(fee: Amount) {
             contentDescription = ""
         )
         Spacer(modifier = Modifier.size(MaterialTheme.dimens.small))
-        Text(text = "Fees: ${fee.formatFull()}")
+        Text(text = stringResource(R.string.fees_template, fee.formatFull()))
     }
 }
 
@@ -311,7 +316,6 @@ private fun ConverterPreview() {
         Converter(
             state = UiState.Ready(
                 submitEnabled = false,
-                rawInput = "0",
                 sell = Amount(
                     value = BigDecimal(10001).movePointLeft(2),
                     currency = Currency.getInstance("EUR")

@@ -7,15 +7,22 @@ sealed class UiState {
     data object Loading : UiState()
 
     data class Ready(
-        val submitEnabled: Boolean,
-        val rawInput: String,
+        val submitEnabled: Boolean = false,
         val sell: Amount,
         val receive: Amount,
-        val fee: Amount?,
+        val fee: Amount? = null,
 
         val availableToSell: List<Currency>,
         val availableToReceive: List<Currency>,
 
-        val showMessage: Boolean = false
-    ) : UiState()
+        val showMessage: Boolean = false,
+        val sellInput: String? = null,
+        val receiveInput: String? = null,
+    ) : UiState() {
+        val sellValue: String
+            get() = sellInput ?: sell.value.toPlainString()
+
+        val receiveValue: String
+            get() = receiveInput ?: receive.value.toPlainString()
+    }
 }

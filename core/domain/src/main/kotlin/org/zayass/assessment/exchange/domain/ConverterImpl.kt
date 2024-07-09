@@ -66,8 +66,8 @@ internal data class ConverterImpl(
         )
     }
 
-    override fun convertBackward(toAmount: Amount, currency: Currency): ConversionResult? {
-        val amount = rates.convert(toAmount, currency) ?: return null
+    override fun convertBackward(toAmount: Amount, currency: Currency): ConversionResult {
+        val amount = rates.convert(toAmount, currency)!!
         val fee = feePolicy.calculateFee(amount)
         val amountPlusFee = amount.copy(
             value = amount.value + fee.value

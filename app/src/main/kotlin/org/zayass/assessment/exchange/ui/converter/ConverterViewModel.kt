@@ -20,8 +20,12 @@ import java.util.Currency
 import javax.inject.Inject
 
 private data class InnerState(
-    val rawAmount: String = "0",
-    val amount: BigDecimal = BigDecimal.ZERO,
+    val sellInput: String? = null,
+    val receiveInput: String? = null,
+
+    val sellParsed: BigDecimal? = null,
+    val receiveParsed: BigDecimal? = null,
+
     val sellCurrency: Currency? = null,
     val receiveCurrency: Currency? = null,
     val showMessage: Boolean = false
@@ -44,7 +48,8 @@ class ConverterViewModel @Inject constructor(
 
     fun dispatchAction(action: UiAction) {
         when (action) {
-            is UiAction.ChangeAmount -> handleAmountChanged(action)
+            is UiAction.ChangeSellAmount -> handleSellAmountChanged(action)
+            is UiAction.ChangeReceiveAmount -> handleReceiveAmountChanged(action)
             is UiAction.ChangeReceiveCurrency -> handleReceiveCurrencyChanged(action)
             is UiAction.ChangeSellCurrency -> handleSellCurrencyChanged(action)
             UiAction.Submit -> handleSubmit(uiState.value)
@@ -52,14 +57,30 @@ class ConverterViewModel @Inject constructor(
         }
     }
 
-    private fun handleAmountChanged(action: UiAction.ChangeAmount) {
+    private fun handleSellAmountChanged(action: UiAction.ChangeSellAmount) {
         if (action.amount.contains('-')) return
         val amount = parseNumber(action.amount) ?: return
 
         state.update {
             it.copy(
-                amount = amount,
-                rawAmount = action.amount
+                sellInput = action.amount,
+                sellParsed = amount,
+                receiveInput = null,
+                receiveParsed = null
+            )
+        }
+    }
+
+    private fun handleReceiveAmountChanged(action: UiAction.ChangeReceiveAmount) {
+        if (action.amount.contains('-')) return
+        val amount = parseNumber(action.amount) ?: return
+
+        state.update {
+            it.copy(
+                receiveInput = action.amount,
+                receiveParsed = amount,
+                sellInput = null,
+                sellParsed = null
             )
         }
     }
@@ -90,8 +111,10 @@ class ConverterViewModel @Inject constructor(
     private fun handleConfirmDialog() {
         state.update {
             it.copy(
-                amount = BigDecimal.ZERO,
-                rawAmount = "0",
+                sellInput = null,
+                sellParsed = null,
+                receiveInput = null,
+                receiveParsed = null,
                 showMessage = false
             )
         }
@@ -108,23 +131,57 @@ class ConverterViewModel @Inject constructor(
         val sellCurrency = state.sellCurrency ?: availableToSell.first()
         val receiveCurrency = state.receiveCurrency ?: availableToReceive.first()
 
-        val sell = Amount(
-            value = state.amount,
-            currency = sellCurrency
+        val (sell, receive, fee) = converter.computeState(
+            state.sellParsed, sellCurrency,
+            state.receiveParsed, receiveCurrency
         )
 
-        val conversionResult = converter.convertForward(sell, receiveCurrency)
-
         return UiState.Ready(
+            sellInput = state.sellInput,
+            receiveInput = state.receiveInput,
             submitEnabled = hasSufficientAmount(accounts, sell),
-            rawInput = state.rawAmount,
             sell = sell,
-            receive = conversionResult.result,
-            fee = conversionResult.fee,
+            receive = receive,
+            fee = fee,
             availableToSell = availableToSell,
             availableToReceive = availableToReceive,
             showMessage = state.showMessage
         )
+    }
+
+    private fun Converter.computeState(
+        sell: BigDecimal?,
+        sellCurrency: Currency,
+        receive: BigDecimal?,
+        receiveCurrency: Currency
+    ): Triple<Amount, Amount, Amount?> {
+        return if (sell != null) {
+            computeForward(Amount(sell, sellCurrency), receiveCurrency)
+        } else if (receive != null) {
+            computeBackward(Amount(receive, receiveCurrency), sellCurrency)
+        } else {
+            Triple(
+                Amount(BigDecimal.ZERO, sellCurrency),
+                Amount(BigDecimal.ZERO, receiveCurrency),
+                null
+            )
+        }
+    }
+
+    private fun Converter.computeForward(
+        sell: Amount,
+        receiveCurrency: Currency
+    ): Triple<Amount, Amount, Amount?> {
+        val (receive, fee) = convertForward(sell, receiveCurrency)
+        return Triple(sell, receive, fee)
+    }
+
+    private fun Converter.computeBackward(
+        receive: Amount,
+        sellCurrency: Currency
+    ): Triple<Amount, Amount, Amount?> {
+        val (sell, fee) = convertBackward(receive, sellCurrency)
+        return Triple(sell, receive, fee)
     }
 
     private fun hasSufficientAmount(accounts: List<Account>, sell: Amount): Boolean {

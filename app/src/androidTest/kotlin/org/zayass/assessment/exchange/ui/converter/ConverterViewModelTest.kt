@@ -43,7 +43,7 @@ class ConverterViewModelTest {
             assertIs<UiState.Loading>(awaitItem())
             val ready = assertIs<UiState.Ready>(awaitItem())
 
-            assertEquals("0", ready.rawInput)
+            assertEquals("0", ready.sellValue)
             assertEquals(BigDecimal.ZERO, ready.sell.value)
             assertEquals(true, ready.submitEnabled)
             assertEquals(listOf(
@@ -59,18 +59,18 @@ class ConverterViewModelTest {
         viewModel.uiState.test {
             skipItems(2)
 
-            viewModel.dispatchAction(UiAction.ChangeAmount("100"))
+            viewModel.dispatchAction(UiAction.ChangeSellAmount("100"))
             val state1 = assertIs<UiState.Ready>(awaitItem())
-            assertEquals("100", state1.rawInput)
+            assertEquals("100", state1.sellValue)
             assertEquals(BigDecimal(100), state1.sell.value)
 
-            viewModel.dispatchAction(UiAction.ChangeAmount("200"))
+            viewModel.dispatchAction(UiAction.ChangeSellAmount("200"))
             val state2 = assertIs<UiState.Ready>(awaitItem())
-            assertEquals("200", state2.rawInput)
+            assertEquals("200", state2.sellValue)
             assertEquals(BigDecimal(200), state2.sell.value)
 
             // invalid input discarded
-            viewModel.dispatchAction(UiAction.ChangeAmount("invalid input"))
+            viewModel.dispatchAction(UiAction.ChangeSellAmount("invalid input"))
             yield()
             advanceUntilIdle()
             expectNoEvents()
@@ -84,7 +84,7 @@ class ConverterViewModelTest {
         viewModel.uiState.test {
             skipItems(2)
 
-            viewModel.dispatchAction(UiAction.ChangeAmount("2000"))
+            viewModel.dispatchAction(UiAction.ChangeSellAmount("2000"))
             val state = assertIs<UiState.Ready>(awaitItem())
             assertEquals(false, state.submitEnabled)
         }

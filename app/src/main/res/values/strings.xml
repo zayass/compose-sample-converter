@@ -9,4 +9,6 @@
     <string name="converted_without_fee_template">You have converted %1$s to %2$s.</string>
     <string name="converted_with_fee_template">You have converted %1$s to %2$s. Commission Fee: %3$s</string>
     <string name="receive_template">+%1$s</string>
+    <string name="sell_template">-%1$s</string>
+    <string name="fees_template">Fees: %1$s</string>
 </resources>
