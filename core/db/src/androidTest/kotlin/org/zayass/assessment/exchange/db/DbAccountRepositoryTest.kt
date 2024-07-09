@@ -59,8 +59,8 @@ class DbAccountRepositoryTest {
         dao.accounts().test {
             val (first, second) = awaitItem()
 
-            assertEquals(BigDecimal(900), first.amount)
-            assertEquals(BigDecimal(99), second.amount)
+            assertEquals(BigDecimal(900).setScale(6), first.amount)
+            assertEquals(BigDecimal(99).setScale(6), second.amount)
         }
     }
 }
