@@ -14,7 +14,9 @@ data class Amount(
 )
 
 data class ConversionResult(
-    val result: Amount,
+    val sell: Amount,
+    val receive: Amount,
+//    val rate: BigDecimal,
     val fee: Amount?,
 )
 

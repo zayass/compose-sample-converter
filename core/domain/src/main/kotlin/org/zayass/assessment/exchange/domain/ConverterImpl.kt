@@ -33,7 +33,8 @@ internal class ConversionServiceImpl @Inject internal constructor(
 ) : ConversionService {
     private val rates = flow {
         while (currentCoroutineContext().isActive) {
-            val rates = ratesProvider.obtainRates().getOrNull()
+            val result = ratesProvider.obtainRates()
+            val rates = result.getOrNull()
             if (rates != null) {
                 emit(rates)
             }
@@ -55,26 +56,28 @@ internal data class ConverterImpl(
         it.currencyCode in supportedCurrencies
     }
 
-    override fun convertForward(fromAmount: Amount, currency: Currency): ConversionResult {
-        val fee = feePolicy.calculateFee(fromAmount)
-        val amountMinusFee = fromAmount.copy(value = fromAmount.value - fee.value)
-        val value = rates.convert(amountMinusFee, currency) ?: currency.zeroAmount()
+    override fun convertForward(sell: Amount, currency: Currency): ConversionResult {
+        val fee = feePolicy.calculateFee(sell)
+        val sellMinusFee = sell.copy(value = sell.value - fee.value)
+        val receive = rates.convert(sellMinusFee, currency) ?: currency.zeroAmount()
 
         return ConversionResult(
-            result = value,
+            sell = sell,
+            receive = receive,
             fee = fee
         )
     }
 
-    override fun convertBackward(toAmount: Amount, currency: Currency): ConversionResult {
-        val amount = rates.convert(toAmount, currency)!!
+    override fun convertBackward(receive: Amount, currency: Currency): ConversionResult {
+        val amount = rates.convert(receive, currency)!!
         val fee = feePolicy.calculateFee(amount)
-        val amountPlusFee = amount.copy(
+        val sell = amount.copy(
             value = amount.value + fee.value
         )
 
         return ConversionResult(
-            result = amountPlusFee,
+            sell = sell,
+            receive = receive,
             fee = fee
         )
     }

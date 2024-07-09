@@ -13,6 +13,7 @@ import kotlinx.coroutines.launch
 import org.zayass.assessment.exchange.domain.Account
 import org.zayass.assessment.exchange.domain.AccountRepository
 import org.zayass.assessment.exchange.domain.Amount
+import org.zayass.assessment.exchange.domain.ConversionResult
 import org.zayass.assessment.exchange.domain.ConversionService
 import org.zayass.assessment.exchange.domain.Converter
 import java.math.BigDecimal
@@ -58,7 +59,6 @@ class ConverterViewModel @Inject constructor(
     }
 
     private fun handleSellAmountChanged(action: UiAction.ChangeSellAmount) {
-        if (action.amount.contains('-')) return
         val amount = parseNumber(action.amount) ?: return
 
         state.update {
@@ -72,7 +72,6 @@ class ConverterViewModel @Inject constructor(
     }
 
     private fun handleReceiveAmountChanged(action: UiAction.ChangeReceiveAmount) {
-        if (action.amount.contains('-')) return
         val amount = parseNumber(action.amount) ?: return
 
         state.update {
@@ -125,8 +124,8 @@ class ConverterViewModel @Inject constructor(
         accounts: List<Account>,
         converter: Converter,
     ): UiState.Ready {
-        val availableToSell = accounts.map { it.balance.currency }
         val availableToReceive = converter.availableCurrencies()
+        val availableToSell = sellCurrencies(accounts, availableToReceive)
 
         val sellCurrency = state.sellCurrency ?: availableToSell.first()
         val receiveCurrency = state.receiveCurrency ?: availableToReceive.first()
@@ -149,39 +148,29 @@ class ConverterViewModel @Inject constructor(
         )
     }
 
+    private fun sellCurrencies(accounts: List<Account>, available: List<Currency>): List<Currency> {
+        val set = available.toSet()
+        return accounts
+            .map { it.balance.currency }
+            .filter { it in set }
+    }
+
     private fun Converter.computeState(
         sell: BigDecimal?,
         sellCurrency: Currency,
         receive: BigDecimal?,
         receiveCurrency: Currency
-    ): Triple<Amount, Amount, Amount?> {
+    ): ConversionResult {
         return if (sell != null) {
-            computeForward(Amount(sell, sellCurrency), receiveCurrency)
+            convertForward(Amount(sell, sellCurrency), receiveCurrency)
         } else if (receive != null) {
-            computeBackward(Amount(receive, receiveCurrency), sellCurrency)
+            convertBackward(Amount(receive, receiveCurrency), sellCurrency)
         } else {
-            Triple(
+            convertForward(
                 Amount(BigDecimal.ZERO, sellCurrency),
-                Amount(BigDecimal.ZERO, receiveCurrency),
-                null
+                receiveCurrency,
             )
         }
-    }
-
-    private fun Converter.computeForward(
-        sell: Amount,
-        receiveCurrency: Currency
-    ): Triple<Amount, Amount, Amount?> {
-        val (receive, fee) = convertForward(sell, receiveCurrency)
-        return Triple(sell, receive, fee)
-    }
-
-    private fun Converter.computeBackward(
-        receive: Amount,
-        sellCurrency: Currency
-    ): Triple<Amount, Amount, Amount?> {
-        val (sell, fee) = convertBackward(receive, sellCurrency)
-        return Triple(sell, receive, fee)
     }
 
     private fun hasSufficientAmount(accounts: List<Account>, sell: Amount): Boolean {
@@ -190,6 +179,14 @@ class ConverterViewModel @Inject constructor(
     }
 
     private fun parseNumber(amount: String): BigDecimal? {
+        if (amount.contains('-')) {
+            return null
+        }
+
+        if (amount.isEmpty()) {
+            return BigDecimal.ZERO
+        }
+
         return try {
             BigDecimal(amount)
         } catch (e: NumberFormatException) {

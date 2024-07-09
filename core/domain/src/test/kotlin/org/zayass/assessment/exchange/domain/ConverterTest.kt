@@ -30,13 +30,13 @@ class ConverterTest {
         )
 
         assertEquals(eur2usd.fee?.value, BigDecimal(100).movePointLeft(2))
-        assertEquals(eur2usd.result, Amount(
+        assertEquals(eur2usd.receive, Amount(
             value = BigDecimal(19800).movePointLeft(2),
             currency = Currency("USD")
         ))
 
         assertEquals(uah2usd.fee?.value, BigDecimal(100).movePointLeft(2))
-        assertEquals(uah2usd.result, Amount(
+        assertEquals(uah2usd.receive, Amount(
             value = BigDecimal(660000).movePointLeft(2),
             currency = Currency("USD")
         ))
