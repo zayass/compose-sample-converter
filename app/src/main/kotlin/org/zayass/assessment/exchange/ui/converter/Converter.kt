@@ -44,6 +44,7 @@ import org.zayass.assessment.exchange.domain.Amount
 import org.zayass.assessment.exchange.ui.Header
 import org.zayass.assessment.exchange.ui.ThemedSurface
 import org.zayass.assessment.exchange.ui.applyPrecision
+import org.zayass.assessment.exchange.ui.round
 import org.zayass.assessment.exchange.ui.theme.Green40
 import org.zayass.assessment.exchange.ui.theme.Red40
 import org.zayass.assessment.exchange.ui.theme.dimens
@@ -282,14 +283,14 @@ private fun FeeInfo(fee: Amount) {
 private fun Amount.formatShort(): String {
     val numberFormat = NumberFormat.getNumberInstance(Locale.getDefault())
     numberFormat.applyPrecision(value)
-    return numberFormat.format(value)
+    return numberFormat.format(value.round())
 }
 
 private fun Amount.formatFull(): String {
     val numberFormat = NumberFormat.getCurrencyInstance(Locale.getDefault())
     numberFormat.currency = currency
     numberFormat.applyPrecision(value)
-    return numberFormat.format(value)
+    return numberFormat.format(value.round())
 }
 
 @Preview

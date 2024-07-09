@@ -9,7 +9,7 @@ import androidx.room.TypeConverters
         AccountEntry::class,
         TransferEntry::class
     ],
-    version = 1,
+    version = 2,
 )
 @TypeConverters(value = [
     BigDecimalConverter::class,

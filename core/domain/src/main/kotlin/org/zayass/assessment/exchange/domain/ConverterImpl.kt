@@ -14,6 +14,7 @@ import kotlin.time.Duration.Companion.seconds
 // Original list is unusably long without filtering
 private val supportedCurrencies =
     listOf(
+        "BTC",
         "EUR",
         "USD",
         "GBP",

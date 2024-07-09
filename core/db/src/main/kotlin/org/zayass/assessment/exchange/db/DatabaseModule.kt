@@ -19,6 +19,7 @@ internal object DatabaseModule {
     fun provideDatabase(@ApplicationContext app: Context): AppDatabase {
         return Room.databaseBuilder(app, AppDatabase::class.java, "main_db")
             .createFromAsset("initial.db")
+            .addMigrations(Migrations.MIGRATION_1_2)
             .build()
     }
 

@@ -4,7 +4,7 @@ import androidx.room.TypeConverter
 import java.math.BigDecimal
 
 object BigDecimalConverter {
-    private val hundred = BigDecimal(100)
+    private const val SCALE = 6
 
     @TypeConverter
     fun toLong(input: BigDecimal?): Long? {
@@ -12,7 +12,7 @@ object BigDecimalConverter {
             return null
         }
 
-        return input.multiply(hundred).toLong()
+        return input.movePointRight(SCALE).toLong()
     }
 
     @TypeConverter
@@ -21,7 +21,7 @@ object BigDecimalConverter {
             return null
         }
 
-        return input.toBigDecimal().divide(hundred)
+        return input.toBigDecimal().movePointLeft(SCALE)
     }
 }
 
