@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
@@ -19,7 +18,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -33,14 +31,13 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.zayass.assessment.exchange.R
 import org.zayass.assessment.exchange.domain.Amount
+import org.zayass.assessment.exchange.domain.Currency
 import org.zayass.assessment.exchange.domain.round
 import org.zayass.assessment.exchange.ui.Header
 import org.zayass.assessment.exchange.ui.ThemedSurface
@@ -208,11 +205,6 @@ private fun SellRow(
                 .focusRequester(focusRequester)
                 .weight(1f)
                 .padding(horizontal = MaterialTheme.dimens.small),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-            textStyle = LocalTextStyle.current.copy(
-                textAlign = TextAlign.End,
-                fontWeight = FontWeight.Medium,
-            ),
             unfocusedTextColor = Red40
         )
 
@@ -257,11 +249,6 @@ private fun ReceiveRow(
             modifier = Modifier
                 .weight(1f)
                 .padding(horizontal = MaterialTheme.dimens.small),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-            textStyle = LocalTextStyle.current.copy(
-                textAlign = TextAlign.End,
-                fontWeight = FontWeight.Medium,
-            ),
             unfocusedTextColor = Green40
         )
 
@@ -318,18 +305,18 @@ private fun ConverterPreview() {
                 submitEnabled = false,
                 sell = Amount(
                     value = BigDecimal(10001).movePointLeft(2),
-                    currency = Currency.getInstance("EUR")
+                    currency = Currency("EUR")
                 ),
                 receive = Amount(
                     value = BigDecimal(10001).movePointLeft(2),
-                    currency = Currency.getInstance("USD")
+                    currency = Currency("USD")
                 ),
                 fee = Amount(
                     value = BigDecimal(10).movePointLeft(2),
-                    currency = Currency.getInstance("EUR")
+                    currency = Currency("EUR")
                 ),
-                availableToSell = listOf(Currency.getInstance("USD")),
-                availableToReceive = listOf(Currency.getInstance("USD")),
+                availableToSell = emptyList(),
+                availableToReceive = emptyList(),
             ),
             dispatchAction = {}
         )

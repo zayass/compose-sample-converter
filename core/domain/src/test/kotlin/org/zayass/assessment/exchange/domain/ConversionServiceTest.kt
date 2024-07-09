@@ -51,7 +51,7 @@ class ConversionServiceTest {
 
     private class MockRates : Rates {
         override fun availableCurrencies() = emptyList<Currency>()
-        override fun baseCurrency(): Currency = Currency.getInstance("EUR")
+        override fun baseCurrency(): Currency = Currency("EUR")
         override fun rate(currency: Currency) = null
     }
 }

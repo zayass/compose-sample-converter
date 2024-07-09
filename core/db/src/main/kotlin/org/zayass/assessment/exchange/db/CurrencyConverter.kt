@@ -1,6 +1,7 @@
 package org.zayass.assessment.exchange.db
 
 import androidx.room.TypeConverter
+import org.zayass.assessment.exchange.domain.Currency
 import java.util.Currency
 
 object CurrencyConverter {
@@ -19,7 +20,7 @@ object CurrencyConverter {
             return null
         }
 
-        val parsed = runCatching { Currency.getInstance(input) }
+        val parsed = runCatching { Currency(input) }
         return parsed.getOrNull()
     }
 }

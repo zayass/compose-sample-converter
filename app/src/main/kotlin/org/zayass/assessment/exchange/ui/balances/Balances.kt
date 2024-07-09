@@ -18,13 +18,13 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.zayass.assessment.exchange.R
 import org.zayass.assessment.exchange.domain.Account
 import org.zayass.assessment.exchange.domain.Amount
+import org.zayass.assessment.exchange.domain.Currency
 import org.zayass.assessment.exchange.ui.Header
 import org.zayass.assessment.exchange.ui.ThemedSurface
 import org.zayass.assessment.exchange.ui.applyPrecision
 import org.zayass.assessment.exchange.ui.theme.dimens
 import java.math.BigDecimal
 import java.text.NumberFormat
-import java.util.Currency
 import java.util.Locale
 
 @Composable
@@ -81,14 +81,14 @@ private fun BalancesPreview() {
                 id = 1,
                 balance = Amount(
                     value = BigDecimal.TEN,
-                    currency = Currency.getInstance("USD")
+                    currency = Currency("USD")
                 )
             ),
             Account(
                 id = 2,
                 balance = Amount(
                     value = BigDecimal(1_000_000_000),
-                    currency = Currency.getInstance("EUR")
+                    currency = Currency("EUR")
                 )
             )
         ))

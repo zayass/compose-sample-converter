@@ -12,15 +12,14 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.zayass.assessment.exchange.domain.Amount
+import org.zayass.assessment.exchange.domain.Currency
 import java.math.BigDecimal
-import java.util.Currency
 
 @RunWith(AndroidJUnit4::class)
 class DbAccountRepositoryTest {
     private lateinit var db: AppDatabase
     private lateinit var dao: AccountDao
     private lateinit var repository: DbAccountRepository
-
 
     @Before
     fun createDb() {
@@ -38,7 +37,7 @@ class DbAccountRepositoryTest {
     @Test
     fun testTransfer() = runTest {
         val initialAccount = AccountEntry(
-            currency = Currency.getInstance("EUR"),
+            currency = Currency("EUR"),
             amount = BigDecimal(1000)
         )
 
@@ -46,11 +45,11 @@ class DbAccountRepositoryTest {
 
         repository.transfer(
             send = Amount(
-                currency = Currency.getInstance("EUR"),
+                currency = Currency("EUR"),
                 value = BigDecimal(100)
             ),
             receive = Amount(
-                currency = Currency.getInstance("USD"),
+                currency = Currency("USD"),
                 value = BigDecimal(99)
             ),
             fee = null

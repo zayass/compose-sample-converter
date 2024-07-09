@@ -16,40 +16,40 @@ class ConverterTest {
         val eur2usd = converter.convertForward(
             Amount(
                 value = BigDecimal(100),
-                currency = Currency.getInstance("EUR")
+                currency = Currency("EUR")
             ),
-            Currency.getInstance("USD")
+            Currency("USD")
         )
 
         val uah2usd = converter.convertForward(
             Amount(
                 value = BigDecimal(100),
-                currency = Currency.getInstance("UAH")
+                currency = Currency("UAH")
             ),
-            Currency.getInstance("USD")
+            Currency("USD")
         )
 
         assertEquals(eur2usd.fee?.value, BigDecimal(100).movePointLeft(2))
         assertEquals(eur2usd.result, Amount(
             value = BigDecimal(19800).movePointLeft(2),
-            currency = Currency.getInstance("USD")
+            currency = Currency("USD")
         ))
 
         assertEquals(uah2usd.fee?.value, BigDecimal(100).movePointLeft(2))
         assertEquals(uah2usd.result, Amount(
             value = BigDecimal(660000).movePointLeft(2),
-            currency = Currency.getInstance("USD")
+            currency = Currency("USD")
         ))
     }
 
     private class MockRates : Rates {
         private val rates = mapOf(
-            Currency.getInstance("USD") to BigDecimal(2),
-            Currency.getInstance("UAH") to BigDecimal(3).movePointLeft(2),
+            Currency("USD") to BigDecimal(2),
+            Currency("UAH") to BigDecimal(3).movePointLeft(2),
         )
 
         override fun availableCurrencies() = emptyList<Currency>()
-        override fun baseCurrency(): Currency = Currency.getInstance("EUR")
+        override fun baseCurrency(): Currency = Currency("EUR")
         override fun rate(currency: Currency) = rates[currency]
     }
 }

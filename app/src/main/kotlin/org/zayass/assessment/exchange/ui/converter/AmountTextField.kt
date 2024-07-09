@@ -12,6 +12,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 
 @Composable
 fun AmountTextField(
@@ -19,10 +22,6 @@ fun AmountTextField(
     formatedValue: String?,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    enabled: Boolean = true,
-    readOnly: Boolean = false,
-    textStyle: TextStyle = LocalTextStyle.current,
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     unfocusedTextColor: Color = Color.Unspecified,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
@@ -39,11 +38,12 @@ fun AmountTextField(
         value = wrappedValue,
         modifier = modifier,
         interactionSource = interactionSource,
-        readOnly = readOnly,
-        enabled = enabled,
         onValueChange = onValueChange,
-        keyboardOptions = keyboardOptions,
-        textStyle = textStyle,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+        textStyle = LocalTextStyle.current.copy(
+            textAlign = TextAlign.End,
+            fontWeight = FontWeight.Medium,
+        ),
         colors = TextFieldDefaults.colors(
             unfocusedTextColor = unfocusedTextColor,
             disabledContainerColor = Color.Transparent,

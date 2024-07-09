@@ -20,6 +20,7 @@ import org.zayass.assessment.exchange.domain.AccountRepository
 import org.zayass.assessment.exchange.domain.Amount
 import org.zayass.assessment.exchange.domain.ConversionResult
 import org.zayass.assessment.exchange.domain.ConversionService
+import org.zayass.assessment.exchange.domain.Currency
 import org.zayass.assessment.exchange.domain.times
 import java.math.BigDecimal
 import java.util.Currency
@@ -47,7 +48,7 @@ class ConverterViewModelTest {
             assertEquals(BigDecimal.ZERO, ready.sell.value)
             assertEquals(true, ready.submitEnabled)
             assertEquals(listOf(
-                Currency.getInstance("EUR")
+                Currency("EUR")
             ), ready.availableToSell)
         }
     }
@@ -98,7 +99,7 @@ class ConverterViewModelTest {
                         id = 1,
                         balance = Amount(
                             value = BigDecimal(1000),
-                            currency = Currency.getInstance("EUR")
+                            currency = Currency("EUR")
                         )
                     )
                 )
@@ -107,8 +108,8 @@ class ConverterViewModelTest {
 
         val converter = mock<DomainConverter> {
             on { availableCurrencies() } doReturn listOf(
-                Currency.getInstance("USD"),
-                Currency.getInstance("UAH"),
+                Currency("USD"),
+                Currency("UAH"),
             )
 
             on { convertForward(any(), any()) } doAnswer { (amount: Amount, currency: Currency) ->
