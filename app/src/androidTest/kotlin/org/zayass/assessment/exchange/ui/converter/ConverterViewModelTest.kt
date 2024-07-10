@@ -108,13 +108,15 @@ class ConverterViewModelTest {
 
         val converter = mock<DomainConverter> {
             on { availableCurrencies() } doReturn listOf(
+                Currency("EUR"),
                 Currency("USD"),
                 Currency("UAH"),
             )
 
             on { convertForward(any(), any()) } doAnswer { (amount: Amount, currency: Currency) ->
                 ConversionResult(
-                    result = Amount(
+                    sell = amount,
+                    receive = Amount(
                         value = amount.value * BigDecimal(2),
                         currency = currency
                     ),
