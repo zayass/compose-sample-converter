@@ -6,6 +6,7 @@
 - Multi-module Hilt
 - Room
 - Retrofit
+- Gradle convention plugins
 - Testing
   - junit
   - mockito
@@ -17,6 +18,7 @@
 - `core/domain` - models, interfaces, business logic
 - `core/db` - Room stuff
 - `core/network` - Retrofit stuff
+- `build-logic` - Gradle convention plugins
 
 ## Preview
 ![image](doc/screenshot.png)
