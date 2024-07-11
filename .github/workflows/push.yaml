@@ -37,7 +37,13 @@ jobs:
           validate-wrappers: true
           gradle-home-cache-cleanup: true
 
-      - name: Run local tests and create report
+      - name: Check build-logic
+        run: ./gradlew check -p build-logic
+
+      - name: Build app
+        run: ./gradlew :app:assemble
+
+      - name: Run local tests
         run: ./gradlew test -x testRelease
 
   androidTest:

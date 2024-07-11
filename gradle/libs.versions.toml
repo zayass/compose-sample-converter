@@ -1,7 +1,6 @@
 [versions]
 # AGP and tools should be updated together
 agp = "8.5.0"
-androidTools = "31.5.0"
 kotlin = "2.0.0"
 junit = "4.13.2"
 lifecycleRuntimeKtx = "2.8.3"
@@ -62,7 +61,6 @@ retrofit-converter-gson = { module = "com.squareup.retrofit2:converter-gson", ve
 
 # Dependencies of the included build-logic
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
-android-tools-common = { group = "com.android.tools", name = "common", version.ref = "androidTools" }
 compose-gradlePlugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
