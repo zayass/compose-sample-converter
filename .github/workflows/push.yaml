@@ -38,11 +38,12 @@ jobs:
           gradle-home-cache-cleanup: true
 
       - name: Run local tests and create report
-        run: ./gradlew test
+        run: ./gradlew test -x testRelease
 
   androidTest:
     runs-on: ubuntu-latest
     timeout-minutes: 55
+    if: false
 
     steps:
       - name: Delete unnecessary tools 🔧

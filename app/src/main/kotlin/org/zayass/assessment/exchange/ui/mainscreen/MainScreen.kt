@@ -16,7 +16,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.onPlaced
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import org.zayass.assessment.exchange.ui.Screen
@@ -43,9 +43,9 @@ fun MainScreen() {
             ) {
                 Balances(
                     modifier = Modifier
-                        .onPlaced {
+                        .onSizeChanged {
                             balancesHeight = with(density) {
-                                it.size.height.toDp()
+                                it.height.toDp()
                             }
                         }
                         .padding(

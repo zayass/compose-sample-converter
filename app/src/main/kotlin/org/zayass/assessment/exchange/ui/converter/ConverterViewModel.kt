@@ -20,13 +20,17 @@ import java.math.BigDecimal
 import java.util.Currency
 import javax.inject.Inject
 
+private sealed class AmountInput {
+    data class Sell(val raw: String, val parsed: BigDecimal) : AmountInput()
+    data class Receive(val raw: String, val parsed: BigDecimal) : AmountInput()
+    data object None : AmountInput()
+
+    fun rawSell() = (this as? Sell)?.raw
+    fun rawReceive() = (this as? Receive)?.raw
+}
+
 private data class InnerState(
-    val sellInput: String? = null,
-    val receiveInput: String? = null,
-
-    val sellParsed: BigDecimal? = null,
-    val receiveParsed: BigDecimal? = null,
-
+    val amountInput: AmountInput = AmountInput.None,
     val sellCurrency: Currency? = null,
     val receiveCurrency: Currency? = null,
     val showMessage: Boolean = false
@@ -63,10 +67,7 @@ class ConverterViewModel @Inject constructor(
 
         state.update {
             it.copy(
-                sellInput = action.amount,
-                sellParsed = amount,
-                receiveInput = null,
-                receiveParsed = null
+                amountInput = AmountInput.Sell(action.amount, amount),
             )
         }
     }
@@ -76,10 +77,7 @@ class ConverterViewModel @Inject constructor(
 
         state.update {
             it.copy(
-                receiveInput = action.amount,
-                receiveParsed = amount,
-                sellInput = null,
-                sellParsed = null
+                amountInput = AmountInput.Receive(action.amount, amount),
             )
         }
     }
@@ -110,10 +108,7 @@ class ConverterViewModel @Inject constructor(
     private fun handleConfirmDialog() {
         state.update {
             it.copy(
-                sellInput = null,
-                sellParsed = null,
-                receiveInput = null,
-                receiveParsed = null,
+                amountInput = AmountInput.None,
                 showMessage = false
             )
         }
@@ -131,13 +126,13 @@ class ConverterViewModel @Inject constructor(
         val receiveCurrency = state.receiveCurrency ?: availableToReceive.first()
 
         val (sell, receive, fee) = converter.computeState(
-            state.sellParsed, sellCurrency,
-            state.receiveParsed, receiveCurrency
+            state.amountInput,
+            sellCurrency, receiveCurrency
         )
 
         return UiState.Ready(
-            sellInput = state.sellInput,
-            receiveInput = state.receiveInput,
+            sellInput = state.amountInput.rawSell(),
+            receiveInput = state.amountInput.rawReceive(),
             submitEnabled = hasSufficientAmount(accounts, sell),
             sell = sell,
             receive = receive,
@@ -156,20 +151,20 @@ class ConverterViewModel @Inject constructor(
     }
 
     private fun Converter.computeState(
-        sell: BigDecimal?,
+        input: AmountInput,
         sellCurrency: Currency,
-        receive: BigDecimal?,
         receiveCurrency: Currency
     ): ConversionResult {
-        return if (sell != null) {
-            convertForward(Amount(sell, sellCurrency), receiveCurrency)
-        } else if (receive != null) {
-            convertBackward(Amount(receive, receiveCurrency), sellCurrency)
-        } else {
-            convertForward(
-                Amount(BigDecimal.ZERO, sellCurrency),
-                receiveCurrency,
-            )
+        return when (input) {
+            is AmountInput.Receive ->
+                convertBackward(Amount(input.parsed, receiveCurrency), sellCurrency)
+            is AmountInput.Sell ->
+                convertForward(Amount(input.parsed, sellCurrency), receiveCurrency)
+            AmountInput.None ->
+                convertForward(
+                    Amount(BigDecimal.ZERO, sellCurrency),
+                    receiveCurrency,
+                )
         }
     }
 

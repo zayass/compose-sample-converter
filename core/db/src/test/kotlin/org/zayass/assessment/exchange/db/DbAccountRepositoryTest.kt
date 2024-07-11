@@ -3,7 +3,6 @@ package org.zayass.assessment.exchange.db
 import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import app.cash.turbine.test
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -11,11 +10,12 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
 import org.zayass.assessment.exchange.domain.Amount
 import org.zayass.assessment.exchange.domain.Currency
 import java.math.BigDecimal
 
-@RunWith(AndroidJUnit4::class)
+@RunWith(RobolectricTestRunner::class)
 class DbAccountRepositoryTest {
     private lateinit var db: AppDatabase
     private lateinit var dao: AccountDao

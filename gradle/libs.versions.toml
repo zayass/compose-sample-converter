@@ -9,8 +9,9 @@ composeBom = "2024.06.00"
 
 coroutines = "1.8.1"
 javaxInject = "1"
-hilt = "2.50"
+hilt = "2.51.1"
 hiltNavigationCompose = "1.2.0"
+robolectric = "4.13"
 room = "2.6.1"
 retrofit = "2.11.0"
 converterGson = "2.11.0"
@@ -20,7 +21,7 @@ ksp = "2.0.0-1.0.22"
 
 androidXTest = "1.6.1"
 androidXJunit = "1.2.1"
-mockitoKotlin = "5.3.1"
+mockitoKotlin = "5.4.0"
 mockitoAndroid = "5.12.0"
 
 [libraries]
@@ -31,6 +32,7 @@ androidx-test-junit = { group = "androidx.test.ext", name = "junit", version.ref
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlin" }
 mockito-android = { module = "org.mockito:mockito-android", version.ref = "mockitoAndroid" }
+robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -72,6 +74,16 @@ jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrai
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
 [bundles]
+test = [
+    "junit",
+    "kotlinx-coroutines-test",
+    "mockito-kotlin",
+    "turbine"
+]
+roboelectric = [
+    "robolectric",
+    "androidx-test-core"
+]
 android-test = [
     "androidx-test-core",
     "androidx-test-rules",
