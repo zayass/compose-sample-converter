@@ -11,6 +11,7 @@ internal fun Project.configureAndroid(
     applicationExtension: ApplicationExtension,
 ) {
     configureKotlinAndroid(applicationExtension)
+    includeAndroidResourcesInUnitTests(applicationExtension)
 
     applicationExtension.apply {
         compileSdk = COMPILE_SDK
@@ -31,6 +32,7 @@ internal fun Project.configureAndroid(
     libraryExtension: LibraryExtension,
 ) {
     configureKotlinAndroid(libraryExtension)
+    includeAndroidResourcesInUnitTests(libraryExtension)
 
     libraryExtension.apply {
         compileSdk = COMPILE_SDK

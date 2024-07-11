@@ -10,7 +10,7 @@
 - Testing
   - junit
   - mockito
-  - roboelectric
+  - robolectric
   - [turbine](https://github.com/cashapp/turbine)
 
 ## Structure

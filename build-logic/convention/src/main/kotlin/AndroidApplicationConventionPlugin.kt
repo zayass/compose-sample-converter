@@ -4,6 +4,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.zayass.assessment.exchange.buildlogic.configureAndroid
+import org.zayass.assessment.exchange.buildlogic.configureTestLogging
 import org.zayass.assessment.exchange.buildlogic.kotlinTestDependencies
 
 class AndroidApplicationConventionPlugin : Plugin<Project> {
@@ -41,6 +42,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
             }
 
             kotlinTestDependencies()
+            configureTestLogging()
         }
     }
 }

@@ -6,6 +6,9 @@ on:
       - master
   pull_request:
 
+permissions:
+  checks: write
+
 concurrency:
   group: build-${{ github.ref }}
   cancel-in-progress: true
@@ -45,6 +48,12 @@ jobs:
 
       - name: Run local tests
         run: ./gradlew test -x testRelease
+
+      - name: Publish Test Report
+        uses: mikepenz/action-junit-report@v4
+        if: always() # always run even if the previous step fails
+        with:
+          report_paths: '**/build/test-results/test*/**.xml'
 
   androidTest:
     runs-on: ubuntu-latest
