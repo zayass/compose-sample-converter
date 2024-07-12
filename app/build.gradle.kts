@@ -24,7 +24,7 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.lifecycle.runtime.compose.android)
     implementation(libs.androidx.compose.material3)
-    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.hilt.navigation.compose)
 
     testImplementation(libs.bundles.test)
 }
