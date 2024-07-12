@@ -5,7 +5,7 @@ import java.math.BigDecimal
 import javax.inject.Inject
 
 internal class FeeProvider @Inject constructor(
-    private val repository: AccountRepository
+    private val repository: AccountRepository,
 ) {
     fun feePolicy() = repository.transfersCount().map { count ->
         if (count >= 5) {

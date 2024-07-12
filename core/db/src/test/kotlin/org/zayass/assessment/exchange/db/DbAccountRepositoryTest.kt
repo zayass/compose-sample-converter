@@ -38,7 +38,7 @@ class DbAccountRepositoryTest {
     fun testTransfer() = runTest {
         val initialAccount = AccountEntry(
             currency = Currency("EUR"),
-            amount = BigDecimal(1000)
+            amount = BigDecimal(1000),
         )
 
         dao.insertOrIgnore(initialAccount)
@@ -46,13 +46,13 @@ class DbAccountRepositoryTest {
         repository.transfer(
             send = Amount(
                 currency = Currency("EUR"),
-                value = BigDecimal(100)
+                value = BigDecimal(100),
             ),
             receive = Amount(
                 currency = Currency("USD"),
-                value = BigDecimal(99)
+                value = BigDecimal(99),
             ),
-            fee = null
+            fee = null,
         )
 
         dao.accounts().test {

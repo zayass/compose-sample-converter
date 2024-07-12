@@ -5,12 +5,12 @@ import java.util.Currency
 
 data class Account(
     val id: Long?,
-    val balance: Amount
+    val balance: Amount,
 )
 
 data class Amount(
     val value: BigDecimal,
-    val currency: Currency
+    val currency: Currency,
 )
 
 data class ConversionResult(
@@ -22,6 +22,6 @@ data class ConversionResult(
 
 operator fun Amount.times(factor: BigDecimal): Amount {
     return copy(
-        value = value * factor
+        value = value * factor,
     )
 }

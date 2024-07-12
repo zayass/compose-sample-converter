@@ -4,7 +4,7 @@ import androidx.room.TypeConverter
 import org.zayass.assessment.exchange.domain.Currency
 import java.util.Currency
 
-object CurrencyConverter {
+internal object CurrencyConverter {
     @TypeConverter
     fun toString(input: Currency?): String? {
         if (input == null) {

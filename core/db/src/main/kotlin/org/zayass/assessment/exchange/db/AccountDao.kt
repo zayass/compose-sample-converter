@@ -9,7 +9,7 @@ import java.math.BigDecimal
 import java.util.Currency
 
 @Dao
-interface AccountDao {
+internal interface AccountDao {
     @Query("SELECT * FROM account")
     fun accounts(): Flow<List<AccountEntry>>
 
@@ -27,5 +27,4 @@ interface AccountDao {
 
     @Insert
     suspend fun insert(transferEntry: TransferEntry)
-
 }

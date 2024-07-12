@@ -31,4 +31,3 @@ internal object NetworkModule {
     fun providesRates(api: ExchangeRatesApi): RatesProvider =
         RemoteRatesProvider(api)
 }
-

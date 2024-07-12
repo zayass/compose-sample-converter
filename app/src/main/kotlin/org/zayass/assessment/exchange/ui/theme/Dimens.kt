@@ -10,7 +10,7 @@ class Dimens(
     val small: Dp = 8.dp,
     val medium: Dp = 16.dp,
     val large: Dp = 24.dp,
-    val veryLarge: Dp = 36.dp
+    val veryLarge: Dp = 36.dp,
 )
 
 val MaterialTheme.dimens: Dimens

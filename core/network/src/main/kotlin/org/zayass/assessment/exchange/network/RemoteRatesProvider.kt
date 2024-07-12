@@ -7,7 +7,7 @@ import javax.inject.Singleton
 
 @Singleton
 internal class RemoteRatesProvider @Inject constructor(
-    private val api: ExchangeRatesApi
+    private val api: ExchangeRatesApi,
 ) : RatesProvider {
 
     override suspend fun obtainRates(): Result<Rates> {

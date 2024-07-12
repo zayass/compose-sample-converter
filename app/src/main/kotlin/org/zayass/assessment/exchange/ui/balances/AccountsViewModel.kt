@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AccountsViewModel @Inject constructor(
-    repository: AccountRepository
+    repository: AccountRepository,
 ) : ViewModel() {
     val accounts: StateFlow<List<Account>> = repository.accounts()
         .stateIn(viewModelScope, WhileSubscribed(5000), emptyList())

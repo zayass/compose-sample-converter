@@ -23,9 +23,9 @@ private val supportedCurrencies =
         "RON",
         "CHF",
         "CAD",
-        "JPY"
+        "JPY",
     )
-    .toSet()
+        .toSet()
 
 internal class ConversionServiceImpl @Inject internal constructor(
     private val feeProvider: FeeProvider,
@@ -50,7 +50,7 @@ internal class ConversionServiceImpl @Inject internal constructor(
 
 internal data class ConverterImpl(
     private val rates: Rates,
-    private val feePolicy: FeePolicy
+    private val feePolicy: FeePolicy,
 ) : Converter {
     override fun availableCurrencies() = rates.availableCurrencies().filter {
         it.currencyCode in supportedCurrencies
@@ -64,7 +64,7 @@ internal data class ConverterImpl(
         return ConversionResult(
             sell = sell,
             receive = receive,
-            fee = fee
+            fee = fee,
         )
     }
 
@@ -72,13 +72,13 @@ internal data class ConverterImpl(
         val amount = rates.convert(receive, currency)!!
         val fee = feePolicy.calculateFee(amount)
         val sell = amount.copy(
-            value = amount.value + fee.value
+            value = amount.value + fee.value,
         )
 
         return ConversionResult(
             sell = sell,
             receive = receive,
-            fee = fee
+            fee = fee,
         )
     }
 
@@ -87,7 +87,7 @@ internal data class ConverterImpl(
 
     private fun Currency.zeroAmount() = Amount(
         value = BigDecimal.ZERO,
-        currency = this
+        currency = this,
     )
 }
 
@@ -101,7 +101,7 @@ private fun Rates.convert(amount: Amount, currency: Currency): Amount? {
         val scale = maxOf(
             amountInBaseCurrency.scale(),
             outRate.scale(),
-            2
+            2,
         )
 
         amountInBaseCurrency.divide(outRate, scale, RoundingMode.HALF_DOWN)
@@ -111,6 +111,6 @@ private fun Rates.convert(amount: Amount, currency: Currency): Amount? {
 
     return Amount(
         value = value,
-        currency = currency
+        currency = currency,
     )
 }

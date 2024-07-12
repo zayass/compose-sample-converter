@@ -7,15 +7,16 @@ import androidx.room.TypeConverters
 @Database(
     entities = [
         AccountEntry::class,
-        TransferEntry::class
+        TransferEntry::class,
     ],
     version = 2,
 )
-@TypeConverters(value = [
-    BigDecimalConverter::class,
-    CurrencyConverter::class
-])
-abstract class AppDatabase : RoomDatabase() {
+@TypeConverters(
+    value = [
+        BigDecimalConverter::class,
+        CurrencyConverter::class,
+    ],
+)
+internal abstract class AppDatabase : RoomDatabase() {
     abstract fun accountsDao(): AccountDao
 }
-

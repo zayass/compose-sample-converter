@@ -32,14 +32,14 @@ fun MainScreen() {
 
     Screen {
         BoxWithConstraints(
-            modifier = Modifier.imePadding()
+            modifier = Modifier.imePadding(),
         ) {
             val totalHeight = maxHeight
 
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
+                    .verticalScroll(rememberScrollState()),
             ) {
                 Balances(
                     modifier = Modifier
@@ -50,14 +50,14 @@ fun MainScreen() {
                         }
                         .padding(
                             top = MaterialTheme.dimens.medium,
-                            bottom = MaterialTheme.dimens.large
-                        )
+                            bottom = MaterialTheme.dimens.large,
+                        ),
                 )
 
                 Converter(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .heightIn(totalHeight - balancesHeight)
+                        .heightIn(totalHeight - balancesHeight),
                 )
             }
         }

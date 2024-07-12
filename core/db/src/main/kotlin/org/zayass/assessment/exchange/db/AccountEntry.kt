@@ -11,9 +11,9 @@ import java.util.Currency
 
 @Entity(
     tableName = "account",
-    indices = [Index("currency", unique = true)]
+    indices = [Index("currency", unique = true)],
 )
-data class AccountEntry(
+internal data class AccountEntry(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     val id: Long? = null,
@@ -24,10 +24,10 @@ data class AccountEntry(
     val amount: BigDecimal,
 )
 
-fun AccountEntry.toDomain() = Account(
+internal fun AccountEntry.toDomain() = Account(
     id = id,
     balance = Amount(
         value = amount,
-        currency = currency
-    )
+        currency = currency,
+    ),
 )

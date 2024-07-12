@@ -11,9 +11,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class DbAccountRepository @Inject constructor(
+internal class DbAccountRepository @Inject constructor(
     private val database: AppDatabase,
-    private val dao: AccountDao
+    private val dao: AccountDao,
 ) : AccountRepository {
 
     override fun accounts(): Flow<List<Account>> {
@@ -31,8 +31,8 @@ class DbAccountRepository @Inject constructor(
             dao.insertOrIgnore(
                 AccountEntry(
                     currency = receive.currency,
-                    amount = BigDecimal.ZERO
-                )
+                    amount = BigDecimal.ZERO,
+                ),
             )
 
             dao.increase(receive.currency, receive.value)
@@ -43,7 +43,7 @@ class DbAccountRepository @Inject constructor(
                     send = send,
                     receive = receive,
                     fee = fee,
-                )
+                ),
             )
         }
     }

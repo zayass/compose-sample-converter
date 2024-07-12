@@ -39,7 +39,7 @@ fun Balances(accounts: List<Account>, modifier: Modifier = Modifier) {
         Column(modifier) {
             Header(
                 modifier = Modifier.padding(horizontal = MaterialTheme.dimens.medium),
-                stringRes = R.string.my_balances
+                stringRes = R.string.my_balances,
             )
 
             Spacer(modifier = Modifier.size(MaterialTheme.dimens.small))
@@ -61,7 +61,7 @@ private fun Balance(balance: Amount) {
     Text(
         text = balance.format(),
         fontWeight = FontWeight.Medium,
-        modifier = Modifier.padding(end = MaterialTheme.dimens.veryLarge)
+        modifier = Modifier.padding(end = MaterialTheme.dimens.veryLarge),
     )
 }
 
@@ -76,21 +76,23 @@ private fun Amount.format(): String {
 @Composable
 private fun BalancesPreview() {
     ThemedSurface {
-        Balances(listOf(
-            Account(
-                id = 1,
-                balance = Amount(
-                    value = BigDecimal.TEN,
-                    currency = Currency("USD")
-                )
+        Balances(
+            listOf(
+                Account(
+                    id = 1,
+                    balance = Amount(
+                        value = BigDecimal.TEN,
+                        currency = Currency("USD"),
+                    ),
+                ),
+                Account(
+                    id = 2,
+                    balance = Amount(
+                        value = BigDecimal(1_000_000_000),
+                        currency = Currency("EUR"),
+                    ),
+                ),
             ),
-            Account(
-                id = 2,
-                balance = Amount(
-                    value = BigDecimal(1_000_000_000),
-                    currency = Currency("EUR")
-                )
-            )
-        ))
+        )
     }
 }

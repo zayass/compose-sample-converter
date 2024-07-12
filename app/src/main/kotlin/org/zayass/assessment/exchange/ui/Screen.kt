@@ -3,7 +3,6 @@ package org.zayass.assessment.exchange.ui
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -23,12 +22,12 @@ import org.zayass.assessment.exchange.ui.theme.YetAnotherExchangerTheme
 @Composable
 fun Screen(
     @StringRes stringRes: Int = R.string.app_name,
-    content: @Composable BoxScope.() -> Unit
+    content: @Composable BoxScope.() -> Unit,
 ) {
     YetAnotherExchangerTheme {
         Scaffold(
             modifier = Modifier.fillMaxSize(),
-            topBar = { AppBar(stringRes) }
+            topBar = { AppBar(stringRes) },
         ) { innerPadding ->
             Box(
                 modifier = Modifier
@@ -49,7 +48,7 @@ private fun AppBar(@StringRes stringRes: Int) {
             containerColor = MaterialTheme.colorScheme.primaryContainer,
             titleContentColor = MaterialTheme.colorScheme.primary,
         ),
-        title = { Text(text = stringResource(id = stringRes)) }
+        title = { Text(text = stringResource(id = stringRes)) },
     )
 }
 
@@ -59,7 +58,7 @@ private fun ScreenPreview() {
     Screen {
         Text(
             text = "Hello!",
-            modifier = Modifier.align(Alignment.Center)
+            modifier = Modifier.align(Alignment.Center),
         )
     }
 }

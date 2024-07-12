@@ -50,7 +50,6 @@ import java.text.NumberFormat
 import java.util.Currency
 import java.util.Locale
 
-
 @Composable
 fun Converter(modifier: Modifier = Modifier, viewModel: ConverterViewModel = hiltViewModel()) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -61,12 +60,12 @@ fun Converter(modifier: Modifier = Modifier, viewModel: ConverterViewModel = hil
 fun Converter(
     state: UiState,
     dispatchAction: (UiAction) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     when (state) {
         UiState.Loading -> Box(
             modifier = modifier,
-            contentAlignment = Alignment.Center
+            contentAlignment = Alignment.Center,
         ) {
             CircularProgressIndicator()
         }
@@ -78,7 +77,7 @@ fun Converter(
 fun ReadyConverter(
     state: UiState.Ready,
     dispatchAction: (UiAction) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     if (state.showMessage) {
         ConfirmationDialog(state, dispatchAction)
@@ -92,14 +91,14 @@ fun ReadyConverter(
             inputValue = state.sellValue,
             amount = state.sell,
             availableCurrencies = state.availableToSell,
-            dispatchAction = dispatchAction
+            dispatchAction = dispatchAction,
         )
         HorizontalDivider(modifier = Modifier.padding(start = 36.dp))
         ReceiveRow(
             inputValue = state.receiveValue,
             amount = state.receive,
             availableCurrencies = state.availableToReceive,
-            dispatchAction = dispatchAction
+            dispatchAction = dispatchAction,
         )
 
         val fee = state.fee
@@ -115,7 +114,7 @@ fun ReadyConverter(
                 .padding(horizontal = MaterialTheme.dimens.veryLarge)
                 .padding(vertical = MaterialTheme.dimens.large)
                 .align(Alignment.CenterHorizontally),
-            onClick = { dispatchAction(UiAction.Submit) }
+            onClick = { dispatchAction(UiAction.Submit) },
         ) {
             Text(text = stringResource(R.string.submit).uppercase())
         }
@@ -141,11 +140,11 @@ private fun ConfirmationDialog(
             TextButton(
                 onClick = {
                     dispatchAction(UiAction.ConfirmDialog)
-                }
+                },
             ) {
                 Text(stringResource(id = android.R.string.ok))
             }
-        }
+        },
     )
 }
 
@@ -157,13 +156,13 @@ fun UiState.Ready.message(): String {
             id = R.string.converted_with_fee_template,
             sell.formatFull(),
             receive.formatFull(),
-            fee.formatFull()
+            fee.formatFull(),
         )
     } else {
         stringResource(
             id = R.string.converted_without_fee_template,
             sell.formatFull(),
-            receive.formatFull()
+            receive.formatFull(),
         )
     }
 }
@@ -188,13 +187,13 @@ private fun SellRow(
             modifier = Modifier
                 .padding(vertical = MaterialTheme.dimens.small)
                 .size(32.dp)
-                .background(Red40, shape = CircleShape)
+                .background(Red40, shape = CircleShape),
         )
 
         Spacer(modifier = Modifier.size(MaterialTheme.dimens.small))
         Text(
             text = stringResource(R.string.sell),
-            fontWeight = FontWeight.Medium
+            fontWeight = FontWeight.Medium,
         )
 
         AmountTextField(
@@ -205,13 +204,13 @@ private fun SellRow(
                 .focusRequester(focusRequester)
                 .weight(1f)
                 .padding(horizontal = MaterialTheme.dimens.small),
-            unfocusedTextColor = Red40
+            unfocusedTextColor = Red40,
         )
 
         DropDown(
             value = amount.currency,
             values = availableCurrencies,
-            onValueChanged = { dispatchAction(UiAction.ChangeSellCurrency(it)) }
+            onValueChanged = { dispatchAction(UiAction.ChangeSellCurrency(it)) },
         )
     }
 }
@@ -224,7 +223,7 @@ private fun ReceiveRow(
     dispatchAction: (UiAction) -> Unit,
 ) {
     Row(
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Icon(
             imageVector = Icons.Filled.KeyboardArrowDown,
@@ -233,13 +232,13 @@ private fun ReceiveRow(
             modifier = Modifier
                 .padding(vertical = MaterialTheme.dimens.small)
                 .size(32.dp)
-                .background(Green40, shape = CircleShape)
+                .background(Green40, shape = CircleShape),
         )
 
         Spacer(modifier = Modifier.size(MaterialTheme.dimens.small))
         Text(
             text = stringResource(R.string.receive),
-            fontWeight = FontWeight.Medium
+            fontWeight = FontWeight.Medium,
         )
 
         AmountTextField(
@@ -249,13 +248,13 @@ private fun ReceiveRow(
             modifier = Modifier
                 .weight(1f)
                 .padding(horizontal = MaterialTheme.dimens.small),
-            unfocusedTextColor = Green40
+            unfocusedTextColor = Green40,
         )
 
         DropDown(
             value = amount.currency,
             values = availableCurrencies,
-            onValueChanged = { dispatchAction(UiAction.ChangeReceiveCurrency(it)) }
+            onValueChanged = { dispatchAction(UiAction.ChangeReceiveCurrency(it)) },
         )
     }
 }
@@ -265,7 +264,7 @@ private fun FeeInfo(fee: Amount) {
     Row(Modifier.padding(top = MaterialTheme.dimens.medium)) {
         Icon(
             imageVector = Icons.Outlined.Info,
-            contentDescription = ""
+            contentDescription = "",
         )
         Spacer(modifier = Modifier.size(MaterialTheme.dimens.small))
         Text(text = stringResource(R.string.fees_template, fee.formatFull()))
@@ -291,7 +290,7 @@ private fun ConverterLoadingPreview() {
     ThemedSurface {
         Converter(
             state = UiState.Loading,
-            dispatchAction = { }
+            dispatchAction = { },
         )
     }
 }
@@ -305,20 +304,20 @@ private fun ConverterPreview() {
                 submitEnabled = false,
                 sell = Amount(
                     value = BigDecimal(10001).movePointLeft(2),
-                    currency = Currency("EUR")
+                    currency = Currency("EUR"),
                 ),
                 receive = Amount(
                     value = BigDecimal(10001).movePointLeft(2),
-                    currency = Currency("USD")
+                    currency = Currency("USD"),
                 ),
                 fee = Amount(
                     value = BigDecimal(10).movePointLeft(2),
-                    currency = Currency("EUR")
+                    currency = Currency("EUR"),
                 ),
                 availableToSell = emptyList(),
                 availableToReceive = emptyList(),
             ),
-            dispatchAction = {}
+            dispatchAction = {},
         )
     }
 }

@@ -26,7 +26,6 @@ import kotlin.test.assertEquals
 import kotlin.test.assertIs
 import org.zayass.assessment.exchange.domain.Converter as DomainConverter
 
-
 @OptIn(ExperimentalCoroutinesApi::class)
 class ConverterViewModelTest {
 
@@ -44,9 +43,12 @@ class ConverterViewModelTest {
             assertEquals("0", ready.sellValue)
             assertEquals(BigDecimal.ZERO, ready.sell.value)
             assertEquals(true, ready.submitEnabled)
-            assertEquals(listOf(
-                Currency("EUR")
-            ), ready.availableToSell)
+            assertEquals(
+                listOf(
+                    Currency("EUR"),
+                ),
+                ready.availableToSell,
+            )
         }
     }
 
@@ -96,10 +98,10 @@ class ConverterViewModelTest {
                         id = 1,
                         balance = Amount(
                             value = BigDecimal(1000),
-                            currency = Currency("EUR")
-                        )
-                    )
-                )
+                            currency = Currency("EUR"),
+                        ),
+                    ),
+                ),
             )
         }
 
@@ -115,9 +117,9 @@ class ConverterViewModelTest {
                     sell = amount,
                     receive = Amount(
                         value = amount.value * BigDecimal(2),
-                        currency = currency
+                        currency = currency,
                     ),
-                    fee = amount * BigDecimal(1).movePointLeft(1)
+                    fee = amount * BigDecimal(1).movePointLeft(1),
                 )
             }
         }

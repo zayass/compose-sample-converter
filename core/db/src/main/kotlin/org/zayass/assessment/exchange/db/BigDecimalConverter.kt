@@ -5,7 +5,7 @@ import org.zayass.assessment.exchange.domain.loadBigDecimalRepresentation
 import org.zayass.assessment.exchange.domain.toLongRepresentation
 import java.math.BigDecimal
 
-object BigDecimalConverter {
+internal object BigDecimalConverter {
     @TypeConverter
     fun toLong(input: BigDecimal?) =
         input?.toLongRepresentation()
@@ -14,4 +14,3 @@ object BigDecimalConverter {
     fun fromLong(input: Long?) =
         input?.loadBigDecimalRepresentation()
 }
-

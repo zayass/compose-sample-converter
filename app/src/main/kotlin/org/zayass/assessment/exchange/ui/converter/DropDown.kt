@@ -38,7 +38,7 @@ fun DropDown(
         DropdownMenu(
             modifier = Modifier.exposedDropdownSize(),
             expanded = expanded,
-            onDismissRequest = { expanded = false }
+            onDismissRequest = { expanded = false },
         ) {
             values.forEach { item ->
                 DropdownMenuItem(
@@ -46,7 +46,7 @@ fun DropDown(
                     onClick = {
                         onValueChanged(item)
                         expanded = false
-                    }
+                    },
                 )
             }
         }

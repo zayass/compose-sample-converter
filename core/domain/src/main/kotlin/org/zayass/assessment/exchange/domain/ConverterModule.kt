@@ -10,6 +10,6 @@ import dagger.hilt.components.SingletonComponent
 internal abstract class ConverterModule {
     @Binds
     abstract fun bindConversionService(
-        conversionServiceImpl: ConversionServiceImpl
+        conversionServiceImpl: ConversionServiceImpl,
     ): ConversionService
 }

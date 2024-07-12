@@ -16,30 +16,36 @@ class ConverterTest {
         val eur2usd = converter.convertForward(
             Amount(
                 value = BigDecimal(100),
-                currency = Currency("EUR")
+                currency = Currency("EUR"),
             ),
-            Currency("USD")
+            Currency("USD"),
         )
 
         val uah2usd = converter.convertForward(
             Amount(
                 value = BigDecimal(100),
-                currency = Currency("UAH")
+                currency = Currency("UAH"),
             ),
-            Currency("USD")
+            Currency("USD"),
         )
 
         assertEquals(eur2usd.fee?.value, BigDecimal(100).movePointLeft(2))
-        assertEquals(eur2usd.receive, Amount(
-            value = BigDecimal(19800).movePointLeft(2),
-            currency = Currency("USD")
-        ))
+        assertEquals(
+            eur2usd.receive,
+            Amount(
+                value = BigDecimal(19800).movePointLeft(2),
+                currency = Currency("USD"),
+            ),
+        )
 
         assertEquals(uah2usd.fee?.value, BigDecimal(100).movePointLeft(2))
-        assertEquals(uah2usd.receive, Amount(
-            value = BigDecimal(660000).movePointLeft(2),
-            currency = Currency("USD")
-        ))
+        assertEquals(
+            uah2usd.receive,
+            Amount(
+                value = BigDecimal(660000).movePointLeft(2),
+                currency = Currency("USD"),
+            ),
+        )
     }
 
     private class MockRates : Rates {

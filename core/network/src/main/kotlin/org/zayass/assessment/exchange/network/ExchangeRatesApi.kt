@@ -6,4 +6,3 @@ internal interface ExchangeRatesApi {
     @GET("currency-exchange-rates")
     suspend fun getRates(): RatesResponse
 }
-

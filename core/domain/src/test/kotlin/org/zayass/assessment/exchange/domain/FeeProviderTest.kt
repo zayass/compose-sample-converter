@@ -14,7 +14,7 @@ class FeeProviderTest {
     fun testPolicyFlow() = runTest {
         val repository = mock<AccountRepository> {
             on { transfersCount() } doReturn flowOf(
-                0, 1, 2, 5, 6
+                0, 1, 2, 5, 6,
             )
         }
 

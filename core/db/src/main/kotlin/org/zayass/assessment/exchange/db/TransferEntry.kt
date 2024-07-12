@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 import org.zayass.assessment.exchange.domain.Amount
 
 @Entity(tableName = "transfer")
-data class TransferEntry(
+internal data class TransferEntry(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     val id: Long? = null,

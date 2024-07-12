@@ -12,7 +12,7 @@ fun ThemedSurface(modifier: Modifier = Modifier, content: @Composable () -> Unit
         Surface(
             modifier = modifier,
             color = MaterialTheme.colorScheme.background,
-            content = content
+            content = content,
         )
     }
 }

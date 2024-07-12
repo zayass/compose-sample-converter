@@ -33,13 +33,13 @@ private data class InnerState(
     val amountInput: AmountInput = AmountInput.None,
     val sellCurrency: Currency? = null,
     val receiveCurrency: Currency? = null,
-    val showMessage: Boolean = false
+    val showMessage: Boolean = false,
 )
 
 @HiltViewModel
 class ConverterViewModel @Inject constructor(
     private val accountRepository: AccountRepository,
-    conversionService: ConversionService
+    conversionService: ConversionService,
 ) : ViewModel() {
 
     private val state = MutableStateFlow(InnerState())
@@ -48,7 +48,7 @@ class ConverterViewModel @Inject constructor(
         state,
         accountRepository.accounts(),
         conversionService.converter().distinctUntilChanged(),
-        ::reduceState
+        ::reduceState,
     ).stateIn(viewModelScope, WhileSubscribed(5000), UiState.Loading)
 
     fun dispatchAction(action: UiAction) {
@@ -109,7 +109,7 @@ class ConverterViewModel @Inject constructor(
         state.update {
             it.copy(
                 amountInput = AmountInput.None,
-                showMessage = false
+                showMessage = false,
             )
         }
     }
@@ -127,7 +127,8 @@ class ConverterViewModel @Inject constructor(
 
         val (sell, receive, fee) = converter.computeState(
             state.amountInput,
-            sellCurrency, receiveCurrency
+            sellCurrency,
+            receiveCurrency,
         )
 
         return UiState.Ready(
@@ -139,7 +140,7 @@ class ConverterViewModel @Inject constructor(
             fee = fee,
             availableToSell = availableToSell,
             availableToReceive = availableToReceive,
-            showMessage = state.showMessage
+            showMessage = state.showMessage,
         )
     }
 
@@ -153,7 +154,7 @@ class ConverterViewModel @Inject constructor(
     private fun Converter.computeState(
         input: AmountInput,
         sellCurrency: Currency,
-        receiveCurrency: Currency
+        receiveCurrency: Currency,
     ): ConversionResult {
         return when (input) {
             is AmountInput.Receive ->

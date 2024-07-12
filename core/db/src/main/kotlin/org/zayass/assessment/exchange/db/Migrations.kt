@@ -3,7 +3,7 @@ package org.zayass.assessment.exchange.db
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
-object Migrations {
+internal object Migrations {
     // adjust scale
     val MIGRATION_1_2 = object : Migration(1, 2) {
         override fun migrate(db: SupportSQLiteDatabase) {
